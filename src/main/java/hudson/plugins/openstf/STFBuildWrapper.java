@@ -90,11 +90,19 @@ public class STFBuildWrapper extends BuildWrapper {
       throws IOException, InterruptedException {
 
     final PrintStream logger = listener.getLogger();
+
+    Hudson hudsonInstance = Hudson.getInstance();
+    if (hudsonInstance == null) {
+      log(logger, Messages.CANNOT_GET_HUDSON_INSTANCE());
+      build.setResult(Result.FAILURE);
+      return null;
+    }
+
     if (descriptor == null) {
-      descriptor = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
+      descriptor = hudsonInstance.getDescriptorByType(DescriptorImpl.class);
     }
     if (emulatorDescriptor == null) {
-      emulatorDescriptor = Hudson.getInstance().getDescriptorByType(AndroidEmulator.DescriptorImpl.class);
+      emulatorDescriptor = hudsonInstance.getDescriptorByType(AndroidEmulator.DescriptorImpl.class);
     }
 
     // Substitute environment and build variables into config
@@ -146,7 +154,7 @@ public class STFBuildWrapper extends BuildWrapper {
     log(logger, hudson.plugins.android_emulator.Messages.USING_SDK(displayHome));
 
     STFConfig stfConfig = new STFConfig(useSpecificKey, adbPublicKey, adbPrivateKey,
-        deviceCondition, deviceReleaseWaitTime);
+        deviceFilter, deviceReleaseWaitTime);
 
     return doSetup(build, launcher, listener, androidSdk, stfConfig);
   }
@@ -417,11 +425,7 @@ public class STFBuildWrapper extends BuildWrapper {
      * @return List of Device Model values.
      */
     public ComboBoxModel doFillModelItems() {
-      DescriptorImpl descriptor = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
-      if (descriptor != null) {
-        Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.stfToken);
-      }
-
+      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
       return Utils.getSTFDeviceAttributeComboBoxItems("model");
     }
 
@@ -431,11 +435,7 @@ public class STFBuildWrapper extends BuildWrapper {
      * @return List of OS version values.
      */
     public ComboBoxModel doFillVersionItems() {
-      DescriptorImpl descriptor = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
-      if (descriptor != null) {
-        Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.stfToken);
-      }
-
+      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
       return Utils.getSTFDeviceAttributeComboBoxItems("version");
     }
 
@@ -478,10 +478,7 @@ public class STFBuildWrapper extends BuildWrapper {
     @JavaScriptMethod
     public JSONArray getDeviceListJSON(JSONObject filter) {
 
-      DescriptorImpl descriptor = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
-      if (descriptor != null) {
-        Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.stfToken);
-      }
+      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
 
       try {
         List<DeviceListResponseDevices> deviceList = Utils.getDeviceList(filter);

@@ -83,6 +83,8 @@ public class Utils {
    */
   public static JSONObject expandVariables(EnvVars envVars, Map<String,String> buildVars,
         JSONObject filter) {
+
+    JSONObject expandedFilter = JSONObject.fromObject(filter);
     final Map<String,String> vars = new HashMap<String,String>(envVars);
     if (buildVars != null) {
       // Build-specific variables, if any, take priority over environment variables
@@ -97,9 +99,9 @@ public class Utils {
       if (result != null) {
         result = Util.replaceMacro(result, vars);
       }
-      filter.put(key, result);
+      expandedFilter.put(key, result);
     }
-    return filter;
+    return expandedFilter;
   }
 
   /**
@@ -147,7 +149,7 @@ public class Utils {
    */
   public static List<DeviceListResponseDevices> getDeviceList(JSONObject filter) throws ApiFailedException {
 
-    List<DeviceListResponseDevices> deviceList = new ArrayList<DeviceListResponseDevices>();
+    List<DeviceListResponseDevices> deviceList;
     String fields = "serial,name,model,version,sdk,image,present,owner";
     DevicesApi stfDevicesApi = new DevicesApi();
 
