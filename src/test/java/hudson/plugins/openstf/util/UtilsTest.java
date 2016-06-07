@@ -28,9 +28,6 @@ import java.util.concurrent.Callable;
 public class UtilsTest {
 
   @Rule
-  public JenkinsRule j = new JenkinsRule();
-
-  @Rule
   public WireMockRule wireMockRule = new WireMockRule(8888);
 
   private static final String DUMMY_TOKEN = "dummyToken";
