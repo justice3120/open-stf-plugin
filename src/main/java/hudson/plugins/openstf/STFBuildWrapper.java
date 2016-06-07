@@ -417,6 +417,11 @@ public class STFBuildWrapper extends BuildWrapper {
      * @return List of Device Model values.
      */
     public ComboBoxModel doFillModelItems() {
+      DescriptorImpl descriptor = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
+      if (descriptor != null) {
+        Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.stfToken);
+      }
+
       return Utils.getSTFDeviceAttributeComboBoxItems("model");
     }
 
@@ -426,6 +431,11 @@ public class STFBuildWrapper extends BuildWrapper {
      * @return List of OS version values.
      */
     public ComboBoxModel doFillVersionItems() {
+      DescriptorImpl descriptor = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
+      if (descriptor != null) {
+        Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.stfToken);
+      }
+
       return Utils.getSTFDeviceAttributeComboBoxItems("version");
     }
 

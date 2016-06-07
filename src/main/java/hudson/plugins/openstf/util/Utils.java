@@ -322,11 +322,6 @@ public class Utils {
 
   private static TreeSet<String> getSTFDeviceAttributeValueSet(String attribure) {
 
-    DescriptorImpl descriptor = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
-    if (descriptor != null) {
-      Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.stfToken);
-    }
-
     TreeSet<String> items = new TreeSet<String>();
 
     try {

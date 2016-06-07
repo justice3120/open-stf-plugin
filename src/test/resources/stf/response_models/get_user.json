@@ -1,0 +1,26 @@
+{
+    "success": true,
+    "user": {
+        "adbKeys": [
+            {
+                "fingerprint": "11:11:11:11:11:11:11:11:11:11:11:11:11:11:11:11",
+                "title": "hoge@fuga.local"
+            }
+        ],
+        "createdAt": "2016-01-19T05:02:09.844Z",
+        "email": "hoge@fuga.com",
+        "forwards": [],
+        "group": "khAJWxlLS/KiTCSEWJarQA==",
+        "ip": "172.16.0.1",
+        "lastLoggedInAt": "2016-02-02T05:40:31.357Z",
+        "name": "hoge",
+        "settings": {
+            "deviceListActiveTabs": {
+                "details": true,
+                "icons": false
+            },
+            "lastUsedDevice": "AAAAAAAAAAAAAAA",
+            "platform": "native"
+        }
+    }
+}

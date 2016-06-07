@@ -1,0 +1,478 @@
+{
+    "success": true,
+    "devices": [
+        {
+            "abi": "armeabi-v7a",
+            "airplaneMode": false,
+            "battery": {
+                "health": "good",
+                "level": 100,
+                "scale": 100,
+                "source": "usb",
+                "status": "full",
+                "temp": 29.6,
+                "voltage": 4.32
+            },
+            "browser": {
+                "apps": [
+                    {
+                        "id": "com.android.browser/.BrowserActivity",
+                        "name": "Browser",
+                        "selected": false,
+                        "system": true,
+                        "type": "android-browser",
+                        "developer": "Google Inc."
+                    },
+                    {
+                        "id": "com.android.chrome/com.google.android.apps.chrome.Main",
+                        "name": "Chrome",
+                        "selected": false,
+                        "system": true,
+                        "type": "chrome",
+                        "developer": "Google Inc."
+                    }
+                ],
+                "selected": false
+            },
+            "channel": "A7ktfN72IoRVOPu69mhFl0O7Gw4=",
+            "createdAt": "2015-12-16T19:45:20.827Z",
+            "display": {
+                "density": 3,
+                "fps": 60,
+                "height": 1920,
+                "id": 0,
+                "rotation": 0,
+                "secure": false,
+                "size": 4.650000095367432,
+                "url": "ws://hogehoge/d/hoge_provider/HT35TS910997/15124/",
+                "width": 1080,
+                "xdpi": 472.9700012207031,
+                "ydpi": 473.4800109863281,
+                "inches": 4.7
+            },
+            "manufacturer": "HTC",
+            "model": "HTL22",
+            "network": {
+                "connected": true,
+                "failover": false,
+                "roaming": false,
+                "subtype": "",
+                "type": "WIFI"
+            },
+            "notes": "Available Device",
+            "operator": "KDDI",
+            "owner": null,
+            "phone": {
+                "iccid": "8981000000000000000",
+                "imei": "12345678901234",
+                "network": "1xRTT",
+                "phoneNumber": "08000000000"
+            },
+            "platform": "Android",
+            "presenceChangedAt": "2016-01-25T02:45:43.733Z",
+            "present": true,
+            "product": "m7_jp_kdi",
+            "provider": {
+                "channel": "yt5rNcPuSM63qmkUbIm1ng==",
+                "name": "hoge_provider"
+            },
+            "ready": true,
+            "remoteConnect": false,
+            "remoteConnectUrl": null,
+            "reverseForwards": [],
+            "sdk": "16",
+            "serial": "AAAAAAAAAAAAAAA",
+            "status": 3,
+            "statusChangedAt": "2016-01-25T02:45:43.730Z",
+            "version": "4.1.2",
+            "name": "HTC J One",
+            "releasedAt": "2013-05-31T15:00:00.000Z",
+            "image": "HTL22.jpg",
+            "cpu": {
+                "cores": 4,
+                "freq": 1.7,
+                "name": "Qualcomm Snapdragon 600 APQ8064T"
+            },
+            "memory": {
+                "ram": 2048,
+                "rom": 32768
+            },
+            "using": false
+        },
+        {
+            "abi": "armeabi-v7a",
+            "airplaneMode": false,
+            "battery": {
+                "health": "good",
+                "level": 100,
+                "scale": 100,
+                "source": "ac",
+                "status": "full",
+                "temp": 26,
+                "voltage": 4.268
+            },
+            "browser": {
+                "apps": [
+                    {
+                        "id": "com.android.browser/.BrowserActivity",
+                        "name": "Browser",
+                        "selected": false,
+                        "system": true,
+                        "type": "android-browser",
+                        "developer": "Google Inc."
+                    },
+                    {
+                        "id": "com.android.chrome/com.google.android.apps.chrome.Main",
+                        "name": "Chrome",
+                        "selected": true,
+                        "system": true,
+                        "type": "chrome",
+                        "developer": "Google Inc."
+                    }
+                ],
+                "selected": true
+            },
+            "channel": "SCOCweEiLPXFCuTyiNBrJNybf5E=",
+            "createdAt": "2015-12-16T19:45:20.874Z",
+            "display": {
+                "density": 3,
+                "fps": 60,
+                "height": 1920,
+                "id": 0,
+                "rotation": 0,
+                "secure": true,
+                "size": 5.3423075675964355,
+                "url": "ws://hogehoge/d/hoge_provider/356587051720908/15252/",
+                "width": 1080,
+                "xdpi": 409.4320068359375,
+                "ydpi": 413.2879943847656,
+                "inches": 5.4
+            },
+            "manufacturer": "SHARP",
+            "model": "SH-04F",
+            "network": {
+                "connected": true,
+                "failover": false,
+                "manual": false,
+                "operator": "NTT DOCOMO",
+                "roaming": false,
+                "state": "in_service",
+                "subtype": "",
+                "type": "WIFI"
+            },
+            "notes": "Using Device",
+            "operator": "NTT DOCOMO",
+            "owner": {
+                "email": "hoge@fuga.com",
+                "group": "khAJWxlLS/KiTCSEWJarQA==",
+                "name": "hoge"
+            },
+            "phone": {
+                "iccid": "8981000000000000000",
+                "imei": "123456789012345",
+                "network": "LTE",
+                "phoneNumber": "08000000000"
+            },
+            "platform": "Android",
+            "presenceChangedAt": "2016-01-25T02:47:22.246Z",
+            "present": true,
+            "product": "SH-04F",
+            "provider": {
+                "channel": "yt5rNcPuSM63qmkUbIm1ng==",
+                "name": "hoge_provider"
+            },
+            "ready": true,
+            "remoteConnect": true,
+            "remoteConnectUrl": "172.16.0.1:15253",
+            "reverseForwards": [],
+            "sdk": "19",
+            "serial": "BBBBBBBBBBBBBBB",
+            "status": 3,
+            "statusChangedAt": "2016-01-25T02:47:22.291Z",
+            "version": "4.4.2",
+            "name": "AQUOS ZETA",
+            "releasedAt": "2014-05-22T15:00:00.000Z",
+            "image": "SH-04F.jpg",
+            "cpu": {
+                "cores": 4,
+                "freq": 2.3,
+                "name": "Qualcomm Snapdragon 801 MSM8974AB"
+            },
+            "memory": {
+                "ram": 2048,
+                "rom": 32768
+            },
+            "using": true
+        },
+        {
+            "abi": "armeabi-v7a",
+            "airplaneMode": false,
+            "battery": {
+                "health": "good",
+                "level": 100,
+                "scale": 100,
+                "source": "ac",
+                "status": "full",
+                "temp": 34,
+                "voltage": 4.229
+            },
+            "browser": {
+                "apps": [
+                    {
+                        "id": "com.android.chrome/com.google.android.apps.chrome.Main",
+                        "name": "Chrome",
+                        "selected": true,
+                        "system": true,
+                        "type": "chrome",
+                        "developer": "Google Inc."
+                    }
+                ],
+                "selected": true
+            },
+            "channel": "CciTj6EgBKsBna8gj2oaY6RMfdk=",
+            "createdAt": "2015-12-18T02:33:13.893Z",
+            "display": {
+                "density": 3,
+                "fps": 60,
+                "height": 1920,
+                "id": 0,
+                "rotation": 0,
+                "secure": true,
+                "size": 5.464510440826416,
+                "url": "ws://hogehoge/d/hoge_provider/356600050205613/15060/",
+                "width": 1080,
+                "xdpi": 403.4110107421875,
+                "ydpi": 403.0409851074219,
+                "inches": 5.5
+            },
+            "manufacturer": "SHARP",
+            "model": "402SH",
+            "network": {
+                "connected": true,
+                "failover": false,
+                "roaming": false,
+                "subtype": "",
+                "type": "WIFI"
+            },
+            "notes": "Disconnected Device",
+            "operator": null,
+            "owner": null,
+            "phone": {
+                "iccid": null,
+                "imei": "098765432109876",
+                "network": "UNKNOWN",
+                "phoneNumber": null
+            },
+            "platform": "Android",
+            "presenceChangedAt": "2016-01-22T10:56:12.816Z",
+            "present": false,
+            "product": "SG402SH",
+            "provider": {
+                "channel": "yt5rNcPuSM63qmkUbIm1ng==",
+                "name": "hoge_provider"
+            },
+            "ready": true,
+            "remoteConnect": false,
+            "remoteConnectUrl": null,
+            "reverseForwards": [],
+            "sdk": "19",
+            "serial": "CCCCCCCCCCCCCCC",
+            "status": 3,
+            "statusChangedAt": "2016-01-22T01:44:51.500Z",
+            "version": "4.4.4",
+            "name": "AQUOS CRYSTAL X",
+            "releasedAt": "2014-12-18T15:00:00.000Z",
+            "image": "402SH.jpg",
+            "cpu": {
+                "cores": 4,
+                "freq": 2.3,
+                "name": "Qualcomm、Snapdragon 801 MSM8974AB"
+            },
+            "memory": {
+                "ram": 2048,
+                "rom": 16384
+            },
+            "using": false
+        },
+        {
+            "abi": "armeabi-v7a",
+            "airplaneMode": false,
+            "battery": {
+                "health": "good",
+                "level": 100,
+                "scale": 100,
+                "source": "ac",
+                "status": "full",
+                "temp": 34,
+                "voltage": 4.229
+            },
+            "browser": {
+                "apps": [
+                    {
+                        "id": "com.android.chrome/com.google.android.apps.chrome.Main",
+                        "name": "Chrome",
+                        "selected": true,
+                        "system": true,
+                        "type": "chrome",
+                        "developer": "Google Inc."
+                    }
+                ],
+                "selected": true
+            },
+            "channel": "CciTj6EgBKsBna8gj2oaY6RMfdk=",
+            "createdAt": "2015-12-18T02:33:13.893Z",
+            "display": {
+                "density": 3,
+                "fps": 60,
+                "height": 1920,
+                "id": 0,
+                "rotation": 0,
+                "secure": true,
+                "size": 5.464510440826416,
+                "url": "ws://hogehoge/d/hoge_provider/356600050205613/15060/",
+                "width": 1080,
+                "xdpi": 403.4110107421875,
+                "ydpi": 403.0409851074219,
+                "inches": 5.5
+            },
+            "manufacturer": "SHARP",
+            "model": "402SH",
+            "network": {
+                "connected": true,
+                "failover": false,
+                "roaming": false,
+                "subtype": "",
+                "type": "WIFI"
+            },
+            "notes": "Disconnected Device",
+            "operator": null,
+            "owner": null,
+            "phone": {
+                "iccid": null,
+                "imei": "098765432109876",
+                "network": "UNKNOWN",
+                "phoneNumber": null
+            },
+            "platform": "Android",
+            "presenceChangedAt": "2016-01-22T10:56:12.816Z",
+            "present": false,
+            "product": "SG402SH",
+            "provider": {
+                "channel": "yt5rNcPuSM63qmkUbIm1ng==",
+                "name": "hoge_provider"
+            },
+            "ready": true,
+            "remoteConnect": false,
+            "remoteConnectUrl": null,
+            "reverseForwards": [],
+            "sdk": "19",
+            "serial": "DDDDDDDDDDDDDDD",
+            "status": 3,
+            "statusChangedAt": "2016-01-22T01:44:51.500Z",
+            "version": "4.4.4",
+            "name": "AQUOS CRYSTAL X",
+            "releasedAt": "2014-12-18T15:00:00.000Z",
+            "image": "402SH.jpg",
+            "cpu": {
+                "cores": 4,
+                "freq": 2.3,
+                "name": "Qualcomm、Snapdragon 801 MSM8974AB"
+            },
+            "memory": {
+                "ram": 2048,
+                "rom": 16384
+            },
+            "using": false
+        },
+        {
+            "abi": "armeabi-v7a",
+            "airplaneMode": false,
+            "battery": {
+                "health": "good",
+                "level": 100,
+                "scale": 100,
+                "source": "ac",
+                "status": "full",
+                "temp": 34,
+                "voltage": 4.229
+            },
+            "browser": {
+                "apps": [
+                    {
+                        "id": "com.android.chrome/com.google.android.apps.chrome.Main",
+                        "name": "Chrome",
+                        "selected": true,
+                        "system": true,
+                        "type": "chrome",
+                        "developer": "Google Inc."
+                    }
+                ],
+                "selected": true
+            },
+            "channel": "CciTj6EgBKsBna8gj2oaY6RMfdk=",
+            "createdAt": "2015-12-18T02:33:13.893Z",
+            "display": {
+                "density": 3,
+                "fps": 60,
+                "height": 1920,
+                "id": 0,
+                "rotation": 0,
+                "secure": true,
+                "size": 5.464510440826416,
+                "url": "ws://hogehoge/d/hoge_provider/356600050205613/15060/",
+                "width": 1080,
+                "xdpi": 403.4110107421875,
+                "ydpi": 403.0409851074219,
+                "inches": 5.5
+            },
+            "manufacturer": "SHARP",
+            "model": "402SH",
+            "network": {
+                "connected": true,
+                "failover": false,
+                "roaming": false,
+                "subtype": "",
+                "type": "WIFI"
+            },
+            "notes": "Disconnected Device",
+            "operator": null,
+            "owner": null,
+            "phone": {
+                "iccid": null,
+                "imei": "098765432109876",
+                "network": "UNKNOWN",
+                "phoneNumber": null
+            },
+            "platform": "Android",
+            "presenceChangedAt": "2016-01-22T10:56:12.816Z",
+            "present": false,
+            "product": "SG402SH",
+            "provider": {
+                "channel": "yt5rNcPuSM63qmkUbIm1ng==",
+                "name": "hoge_provider"
+            },
+            "ready": true,
+            "remoteConnect": false,
+            "remoteConnectUrl": null,
+            "reverseForwards": [],
+            "sdk": "19",
+            "serial": "EEEEEEEEEEEEEEE",
+            "status": 3,
+            "statusChangedAt": "2016-01-22T01:44:51.500Z",
+            "version": "4.4.4",
+            "name": "AQUOS CRYSTAL X",
+            "releasedAt": "2014-12-18T15:00:00.000Z",
+            "image": "402SH.jpg",
+            "cpu": {
+                "cores": 4,
+                "freq": 2.3,
+                "name": "Qualcomm、Snapdragon 801 MSM8974AB"
+            },
+            "memory": {
+                "ram": 2048,
+                "rom": 16384
+            },
+            "using": false
+        }
+    ]
+}
