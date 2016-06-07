@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -61,6 +62,23 @@ public class UtilsTest {
         .withStatus(200)
         .withHeader("Content-Type", "application/json")
         .withBody(IOUtils.toString(getDevicesStream, Charset.defaultCharset()))));
+  }
+
+  @Test
+  public void testExpandVariables() throws Exception {
+    EnvVars envVers = new EnvVars();
+    envVers.put("MODEL", "HTL22");
+
+    Map<String,String> buildVers = new HashMap<String,String>();
+    buildVers.put("VERSION", "4.1.2");
+
+    JSONObject filter = new JSONObject();
+    filter.put("model", "$MODEL");
+    filter.put("version", "$VERSION");
+
+    JSONObject expandedFilter = Utils.expandVariables(envVers, buildVers, filter);
+    assertEquals("HTL22", expandedFilter.getString("model"));
+    assertEquals("4.1.2", expandedFilter.getString("version"));
   }
 
   @Test
