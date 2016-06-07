@@ -1,0 +1,44 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+
+  <f:section title="${%Open STF}">
+
+    <f:entry title="${%STF API endpoint URL}"
+        description="${%Enter the STF API endpoint URL, if you want to use STF devices}"
+        help="/plugin/open-stf/help-stfApiEndpoint.html">
+      <input class="setting-input validated" name="open-stf.stfApiEndpoint"
+          type="text" value="${descriptor.stfApiEndpoint}"
+          checkUrl="'buildWrapper/STFBuildWrapper/checkSTFApiEndpoint?value='+escape(this.value)" />
+    </f:entry>
+
+    <f:entry title="${%STF Access Token}"
+        help="/plugin/open-stf/help-stfToken.html">
+      <f:password value="${descriptor.stfToken}"
+          name="open-stf.stfToken"
+          checkUrl="'buildWrapper/STFBuildWrapper/checkSTFToken?stfApiEndpoint='+escape(document.getElementsByName('open-stf.stfApiEndpoint')[0].value) +'&amp;stfToken='+escape(this.value)"/>
+    </f:entry>
+
+    <f:entry title="${%ADB Key}">
+      <f:checkbox title="${%Use specific ADB key}" name="open-stf.useSpecificKey" checked="${descriptor.useSpecificKey}"
+        checkUrl="'buildWrapper/STFBuildWrapper/checkUseSpecificKey?value='+escape(this.checked)">
+      </f:checkbox>
+    </f:entry>
+    <f:entry>
+      <table style="margin-left:2em">
+        <f:entry title="${%ADB Public Key}"
+            help="/plugin/open-stf/help-adbPublicKey.html">
+            <iframe name="adbPublicKeyFrame" src="${rootURL}/plugin/open-stf/frames/adbPublicKey.html" sandbox="allow-same-origin allow-forms allow-scripts" style="border: none; height: 25px;" />
+            <f:textarea name="open-stf.adbPublicKey" value="${descriptor.adbPublicKey}" readonly="readonly" />
+        </f:entry>
+
+        <f:entry title="${%ADB Private Key}"
+            help="/plugin/open-stf/help-adbPrivateKey.html">
+            <iframe name="adbPrivateKeyFrame" src="${rootURL}/plugin/open-stf/frames/adbPrivateKey.html" sandbox="allow-same-origin allow-forms allow-scripts" style="border: none; height: 25px;" />
+            <f:textarea name="open-stf.adbPrivateKey" value="${descriptor.adbPrivateKey}" readonly="readonly" />
+        </f:entry>
+        <script type="text/javascript" src="${rootURL}/plugin/open-stf/js/set-adbkey.js"></script>
+      </table>
+    </f:entry>
+
+  </f:section>
+
+</j:jelly>
