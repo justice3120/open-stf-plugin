@@ -248,8 +248,11 @@ public class STFBuildWrapper extends BuildWrapper {
     };
   }
 
-  private static void connect(AndroidRemoteContext remote) throws IOException, InterruptedException {
-    ArgumentListBuilder adbConnectCmd = remote.getToolCommand(Tool.ADB, "connect " + remote.serial());
+  private static void connect(AndroidRemoteContext remote)
+      throws IOException, InterruptedException {
+
+    ArgumentListBuilder adbConnectCmd = remote
+        .getToolCommand(Tool.ADB, "connect " + remote.serial());
     remote.getProcStarter(adbConnectCmd).start()
         .joinWithTimeout(5L, TimeUnit.SECONDS, remote.launcher().getListener());
   }

@@ -34,7 +34,8 @@ public class Utils {
    *
    * @param envVars  Map of the environment variables.
    * @param buildVars  Map of the build-specific variables.
-   * @param json  The json token set which may or may not contain variables in the format <tt>${foo}</tt>.
+   * @param json  The json token set which may or may not contain variables in the format
+     <tt>${foo}</tt>.
    * @return  The given json, with applicable variable expansions done.
    */
   public static JSONObject expandVariables(EnvVars envVars, Map<String,String> buildVars,
@@ -112,7 +113,8 @@ public class Utils {
    * @param filter Conditions of the STF device you want to get.
    * @return List of STF devices that meet the filter.
    */
-  public static List<DeviceListResponseDevices> getDeviceList(JSONObject filter) throws ApiFailedException {
+  public static List<DeviceListResponseDevices> getDeviceList(JSONObject filter)
+      throws ApiFailedException {
 
     List<DeviceListResponseDevices> deviceList;
     String fields = "serial,name,model,version,sdk,image,present,owner";
@@ -163,7 +165,9 @@ public class Utils {
    * @param deviceId The id of the device you want to get.
    * @return a STF device that matches the given id.
    */
-  public static DeviceListResponseDevices getSTFDeviceById(String deviceId) throws ApiFailedException {
+  public static DeviceListResponseDevices getSTFDeviceById(String deviceId)
+      throws ApiFailedException {
+
     DeviceListResponseDevices device = null;
 
     DevicesApi stfDevicesApi = new DevicesApi();
