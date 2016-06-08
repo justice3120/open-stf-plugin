@@ -149,8 +149,8 @@ public class STFBuildWrapper extends BuildWrapper {
     }
 
     String displayHome =
-        androidSdk.hasKnownRoot() ?
-            androidSdk.getSdkRoot() : hudson.plugins.android_emulator.Messages.USING_PATH();
+        androidSdk.hasKnownRoot()
+            ? androidSdk.getSdkRoot() : hudson.plugins.android_emulator.Messages.USING_PATH();
     log(logger, hudson.plugins.android_emulator.Messages.USING_SDK(displayHome));
 
     STFConfig stfConfig = new STFConfig(useSpecificKey, adbPublicKey, adbPrivateKey,
