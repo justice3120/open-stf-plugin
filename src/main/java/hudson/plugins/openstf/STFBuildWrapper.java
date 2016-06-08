@@ -65,10 +65,10 @@ public class STFBuildWrapper extends BuildWrapper {
 
   @DataBoundConstructor
   public STFBuildWrapper(JSONObject deviceCondition, int deviceReleaseWaitTime) {
-        this.deviceCondition = deviceCondition;
-        this.model = deviceCondition.getString("model");
-        this.version = deviceCondition.getString("version");
-        this.deviceReleaseWaitTime = deviceReleaseWaitTime;
+    this.deviceCondition = deviceCondition;
+    this.model = deviceCondition.getString("model");
+    this.version = deviceCondition.getString("version");
+    this.deviceReleaseWaitTime = deviceReleaseWaitTime;
   }
 
   @Override
