@@ -25,6 +25,7 @@ import hudson.remoting.Callable;
 import hudson.remoting.Future;
 import hudson.util.ArgumentListBuilder;
 import hudson.util.ComboBoxModel;
+import hudson.util.ListBoxModel;
 import hudson.util.FormValidation;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
@@ -121,6 +122,15 @@ public class Utils {
   public static ComboBoxModel getSTFDeviceAttributeComboBoxItems(String attribute) {
     ComboBoxModel items = new ComboBoxModel();
     items.add("any");
+    for (String value: getSTFDeviceAttributeValueSet(attribute)) {
+      items.add(value);
+    }
+
+    return items;
+  }
+
+  public static ListBoxModel getSTFDeviceAttributeListBoxItems(String attribute) {
+    ListBoxModel items = new ListBoxModel();
     for (String value: getSTFDeviceAttributeValueSet(attribute)) {
       items.add(value);
     }

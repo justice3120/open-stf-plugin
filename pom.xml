@@ -31,14 +31,14 @@
   <dependencies>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>port-allocator</artifactId>
-      <version>1.8</version>
+      <artifactId>android-emulator</artifactId>
+      <version>2.15</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>android-emulator</artifactId>
-      <version>2.15</version>
+      <artifactId>jquery</artifactId>
+      <version>1.11.2-0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
