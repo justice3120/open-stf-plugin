@@ -63,6 +63,11 @@ public class STFBuildWrapper extends BuildWrapper {
   public String version;
   public final int deviceReleaseWaitTime;
 
+  /**
+   * Allocates a STFBuildWrapper object.
+   * @param deviceCondition Condition set of the STF device user want to use.
+   * @param deviceReleaseWaitTime Waiting-time for the STF device to be released
+   */
   @DataBoundConstructor
   public STFBuildWrapper(JSONObject deviceCondition, int deviceReleaseWaitTime) {
     this.deviceCondition = deviceCondition;
@@ -428,6 +433,11 @@ public class STFBuildWrapper extends BuildWrapper {
       return Utils.getSTFDeviceAttributeComboBoxItems("version");
     }
 
+    /**
+     * Checking whether the given os version is valid.
+     * This Method called by Jenkins.
+     * @return validation result.
+     */
     public FormValidation doCheckOsVersion(@QueryParameter String value) {
       if (value == null || value.equals("")) {
         return FormValidation.ok();
@@ -450,6 +460,11 @@ public class STFBuildWrapper extends BuildWrapper {
       return Utils.validateSTFToken(stfApiEndpoint, stfToken);
     }
 
+    /**
+     * Display a warning message if 'useSpecificKey' option is selected.
+     * This Method called by Jenkins.
+     * @return validation result.
+     */
     public FormValidation doCheckUseSpecificKey(@QueryParameter Boolean value) {
       if (value) {
         return FormValidation.warning(Messages.ADBKEY_FILE_WILL_BE_OVERWRITTEN());

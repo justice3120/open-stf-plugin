@@ -34,7 +34,7 @@ public class Utils {
    *
    * @param envVars  Map of the environment variables.
    * @param buildVars  Map of the build-specific variables.
-   * @param json  The json token set which may or may not contain variables in the format
+   * @param filter  The json token set which may or may not contain variables in the format
      <tt>${foo}</tt>.
    * @return  The given json, with applicable variable expansions done.
    */
@@ -75,6 +75,11 @@ public class Utils {
     }
   }
 
+  /**
+   * Gets Attribute values of the STF device.
+   * @param attribute  Attribute name you want to get the values.
+   * @return Attribute values of the STF device as ComboBoxModel.
+   */
   public static ComboBoxModel getSTFDeviceAttributeComboBoxItems(String attribute) {
     ComboBoxModel items = new ComboBoxModel();
     items.add("any");
@@ -85,6 +90,11 @@ public class Utils {
     return items;
   }
 
+  /**
+   * Gets Attribute values of the STF device.
+   * @param attribute  Attribute name you want to get the values.
+   * @return Attribute values of the STF device as ListBoxModel.
+   */
   public static ListBoxModel getSTFDeviceAttributeListBoxItems(String attribute) {
     ListBoxModel items = new ListBoxModel();
     for (String value: getSTFDeviceAttributeValueSet(attribute)) {
@@ -94,6 +104,11 @@ public class Utils {
     return items;
   }
 
+  /**
+   * Set the STF API client up by using given information
+   * @param stfApiEndpoint  stfApiEndpoint The STF API endpoint URL.
+   * @param stfToken  stfToken The STF access token.
+   */
   public static void setupSTFApiClient(String stfApiEndpoint, String stfToken) {
     ApiClient stfApiClient = new ApiClient();
     stfApiClient.setBasePath(stfApiEndpoint);
@@ -108,8 +123,6 @@ public class Utils {
 
   /**
    * Gets a list of devices that match the given filter.
-   * @param stfApiEndpoint The STF API endpoint URL to use to get STF devices.
-   * @param stfToken The STF access token to use to get STF devices.
    * @param filter Conditions of the STF device you want to get.
    * @return List of STF devices that meet the filter.
    */
@@ -180,6 +193,10 @@ public class Utils {
     return device;
   }
 
+  /**
+   * Reserve a STF device.
+   * @param device  The device you want to reserve.
+   */
   public static void reserveSTFDevice(DeviceListResponseDevices device)
       throws ApiFailedException {
 
@@ -194,6 +211,10 @@ public class Utils {
     }
   }
 
+  /**
+   * Remote connect to a STF device.
+   * @param device  The device you want to connect.
+   */
   public static void remoteConnectSTFDevice(DeviceListResponseDevices device)
       throws ApiFailedException {
 
@@ -205,6 +226,10 @@ public class Utils {
     }
   }
 
+  /**
+   * Remote disconnect to a STF device.
+   * @param device  The device you want to disconnect.
+   */
   public static void remoteDisconnectSTFDevice(DeviceListResponseDevices device)
       throws ApiFailedException {
 
@@ -216,6 +241,10 @@ public class Utils {
     }
   }
 
+  /**
+   * Release a STF device.
+   * @param device  The device you want to release.
+   */
   public static void releaseSTFDevice(DeviceListResponseDevices device) throws ApiFailedException {
 
     UserApi stfUserApi = new UserApi();
