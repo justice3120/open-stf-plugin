@@ -28,7 +28,6 @@ import hudson.tasks.BuildWrapperDescriptor;
 import hudson.util.ArgumentListBuilder;
 import hudson.util.ComboBoxModel;
 import hudson.util.FormValidation;
-import hudson.util.FormValidation;
 import hudson.util.NullStream;
 import io.swagger.client.model.DeviceListResponseDevices;
 import net.sf.json.JSONArray;
