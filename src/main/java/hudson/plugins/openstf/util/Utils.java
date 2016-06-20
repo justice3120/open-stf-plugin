@@ -125,6 +125,7 @@ public class Utils {
    * Gets a list of devices that match the given filter.
    * @param filter Conditions of the STF device you want to get.
    * @return List of STF devices that meet the filter.
+   * @throws hudson.plugins.openstf.exception.ApiFailedException Failed STF API request.
    */
   public static List<DeviceListResponseDevices> getDeviceList(JSONObject filter)
       throws ApiFailedException {
@@ -177,6 +178,7 @@ public class Utils {
    * Gets a STF device that matches the given id.
    * @param deviceId The id of the device you want to get.
    * @return a STF device that matches the given id.
+   * @throws hudson.plugins.openstf.exception.ApiFailedException Failed STF API request.
    */
   public static DeviceListResponseDevices getSTFDeviceById(String deviceId)
       throws ApiFailedException {
@@ -196,6 +198,7 @@ public class Utils {
   /**
    * Reserve a STF device.
    * @param device  The device you want to reserve.
+   * @throws hudson.plugins.openstf.exception.ApiFailedException Failed STF API request.
    */
   public static void reserveSTFDevice(DeviceListResponseDevices device)
       throws ApiFailedException {
@@ -214,6 +217,7 @@ public class Utils {
   /**
    * Remote connect to a STF device.
    * @param device  The device you want to connect.
+   * @throws hudson.plugins.openstf.exception.ApiFailedException Failed STF API request.
    */
   public static void remoteConnectSTFDevice(DeviceListResponseDevices device)
       throws ApiFailedException {
@@ -230,6 +234,7 @@ public class Utils {
   /**
    * Remote disconnect to a STF device.
    * @param device  The device you want to disconnect.
+   * @throws hudson.plugins.openstf.exception.ApiFailedException Failed STF API request.
    */
   public static void remoteDisconnectSTFDevice(DeviceListResponseDevices device)
       throws ApiFailedException {
@@ -246,6 +251,7 @@ public class Utils {
   /**
    * Release a STF device.
    * @param device  The device you want to release.
+   * @throws hudson.plugins.openstf.exception.ApiFailedException Failed STF API request.
    */
   public static void releaseSTFDevice(DeviceListResponseDevices device) throws ApiFailedException {
 
