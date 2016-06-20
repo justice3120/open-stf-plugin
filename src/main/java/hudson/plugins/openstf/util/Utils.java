@@ -105,7 +105,7 @@ public class Utils {
   }
 
   /**
-   * Set the STF API client up by using given information
+   * Set the STF API client up by using given information.
    * @param stfApiEndpoint  stfApiEndpoint The STF API endpoint URL.
    * @param stfToken  stfToken The STF access token.
    */
