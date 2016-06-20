@@ -188,7 +188,7 @@ public class Utils {
     try {
       device = stfDevicesApi.getDeviceBySerial(deviceId, fields).getDevice();
     } catch (ApiException ex) {
-      throw new ApiFailedException("GET /devices/{serial} API failed");
+      throw new ApiFailedException("GET /devices/" + device.serial + " API failed");
     }
     return device;
   }
@@ -222,7 +222,8 @@ public class Utils {
     try {
       stfUserApi.remoteConnectUserDeviceBySerial(device.serial);
     } catch (ApiException ex) {
-      throw new ApiFailedException("POST /user/devices/{serial}/remoteConnect API failed");
+      throw new ApiFailedException("POST /user/devices/" + device.serial
+          + "/remoteConnect API failed");
     }
   }
 
@@ -237,7 +238,8 @@ public class Utils {
     try {
       stfUserApi.remoteDisconnectUserDeviceBySerial(device.serial);
     } catch (ApiException ex) {
-      throw new ApiFailedException("DELETE /api/v1/user/devices/{serial}/remoteConnect API failed");
+      throw new ApiFailedException("DELETE /api/v1/user/devices/" + device.serial
+          + "/remoteConnect API failed");
     }
   }
 
@@ -251,7 +253,7 @@ public class Utils {
     try {
       stfUserApi.deleteUserDeviceBySerial(device.serial);
     } catch (ApiException ex) {
-      throw new ApiFailedException("DELETE /api/v1/user/devices/{serial} API failed");
+      throw new ApiFailedException("DELETE /api/v1/user/devices/" + device.serial + " API failed");
     }
   }
 
