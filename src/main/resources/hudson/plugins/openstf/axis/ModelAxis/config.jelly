@@ -1,0 +1,10 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <f:entry title="${%Name}" field="name">
+    <f:textbox default="" />
+  </f:entry>
+  <f:entry title="${%Value}" field="values" help="/plugin/open-stf/help-multipleSelect.html">
+    <f:select multiple="true" size="10" />
+    <st:bind var="descModelAxis" value="${descriptor}"/>
+    <script type="text/javascript" src="${rootURL}/plugin/open-stf/js/select-axis-values.js" />
+  </f:entry>
+</j:jelly>

@@ -1,0 +1,72 @@
+#deviceList {
+  min-height: 200px;
+  max-height: 300px;
+  overflow: auto;
+  margin: 5px;
+  padding: 5px;
+  border: dashed 2px gray;
+  -webkit-border-radius: 10px;
+     -moz-border-radius: 10px;
+          border-radius: 10px;
+}
+
+.device-list-item {
+  float: left;
+  width: 120px;
+  height: 170px;
+  border: 1px solid gray;
+  text-align: center;
+  margin: 5px;
+  -webkit-border-radius: 10px;
+     -moz-border-radius: 10px;
+          border-radius: 10px;
+  -webkit-box-shadow: 0 10px 6px -6px #777;
+     -moz-box-shadow: 0 10px 6px -6px #777;
+          box-shadow: 0 10px 6px -6px #777;
+}
+
+.device-list-item.device-is-busy {
+  opacity: 0.6;
+}
+
+.device-list-item-image {
+  height:120px;
+  margin: 5px;
+}
+
+.device-list-item-image.device-is-busy {
+  opacity: 0.5;
+}
+
+.device-list-item-name {
+  width: 100%;
+  margin: 0px;
+  padding-top: 2px;
+  border-top: 1px solid gray;
+  font-size: 11px;
+}
+
+.device-list-item-status {
+  margin: 0px;
+  margin-top: 3px;
+  height: 15px;
+  width: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+.device-list-item-status.ready {
+  background-color: cornflowerblue;
+}
+
+.device-list-item-status.using {
+  background-color: gold;
+}
+
+.device-list-item-status.disconnected {
+  background-color: lightgray;
+}

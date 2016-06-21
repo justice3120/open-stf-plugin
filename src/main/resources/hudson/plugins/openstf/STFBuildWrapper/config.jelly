@@ -1,0 +1,44 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+
+  <f:block>
+    <link href="${rootURL}/plugin/open-stf/css/combo-box.css" rel="stylesheet" type="text/css" />
+    <table style="margin-left:2em">
+      <f:block>
+        <table style="margin-left:2em">
+          <f:section title="${%Conditions of the device you want to use}">
+            <f:block>
+              <table style="margin-left:2em">
+                <f:entry title="${%Model}" field="model">
+                  <f:combobox clazz="stf-filter" name="open-stf.condition.model" />
+                </f:entry>
+                <f:entry title="${%OS Version}" field="version" >
+                  <f:combobox clazz="stf-filter" name="open-stf.condition.version"
+                      checkUrl="'descriptorByName/STFBuildWrapper/checkOsVersion?value='+escape(this.value)"/>
+                </f:entry>
+              </table>
+            </f:block>
+          </f:section>
+          <f:section title="${%Device list that might be used}">
+            <st:bind var="desc" value="${descriptor}"/>
+            <link href="${rootURL}/plugin/open-stf/css/device-list.css" rel="stylesheet" type="text/css" />
+            <script type="text/javascript" src="${rootURL}/plugin/open-stf/js/device-list.js" />
+            <f:block>
+              <div id="deviceList" />
+            </f:block>
+          </f:section>
+          <f:section title="Advanced Options">
+            <f:advanced>
+              <f:block>
+                <table style="margin-left:2em">
+                  <f:entry title="${%Wait time for a device to be released[min]}">
+                    <f:number name="open-stf.deviceReleaseWaitTime" value="${instance.deviceReleaseWaitTime}"/>
+                  </f:entry>
+                </table>
+              </f:block>
+            </f:advanced>
+          </f:section>
+        </table>
+      </f:block>
+    </table>
+  </f:block>
+</j:jelly>
