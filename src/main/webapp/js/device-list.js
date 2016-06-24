@@ -19,7 +19,23 @@ function updateDeviceList(evt) {
             var devices = t.responseJSON;
             Q('#deviceList').html('');
             Q.each(devices, function(index, device){
-              var div = Q('<div />').addClass('device-list-item');
+              var deviceAttrList = Q('<table />');
+              Q.each(device, function(k, v){
+                if (Q.inArray(k, ['image', 'remoteConnectUrl']) == -1) {
+                  var tdKey = Q('<td />').text(k).css('color', 'white');
+                  var tdValue = Q('<td />').text(v).css('color', 'white');
+
+                  if (k == 'owner' && v != null) {
+                    tdValue.text(v.name);
+                  }
+
+                  Q('<tr />').append(tdKey).append(tdValue).appendTo(deviceAttrList);
+                }
+              });
+              var div = Q('<div />').addClass('device-list-item').balloon({
+                html: true,
+                contents: deviceAttrList
+              });
               var imgUrl = stfUrlArray[0] + "//" + stfUrlArray[2] + "/static/app/devices/icon/x120/" + (device.image == "" ?  "_default.jpg" : device.image);
               var img = Q('<img />').addClass('device-list-item-image').attr('src', imgUrl);
               var deviceName = device.name == "" ? "(No Name)" : device.name;
