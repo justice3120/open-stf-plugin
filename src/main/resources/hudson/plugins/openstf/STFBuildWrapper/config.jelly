@@ -8,10 +8,10 @@
           <f:section title="${%Conditions of the device you want to use}">
             <f:block>
               <table style="margin-left:2em">
-                <f:entry title="${%Model}" field="model">
+                <f:entry title="${%Model}" field="model" help="/plugin/open-stf/help-conditionValue.html">
                   <f:combobox clazz="stf-filter" name="open-stf.condition.model" />
                 </f:entry>
-                <f:entry title="${%OS Version}" field="version" >
+                <f:entry title="${%OS Version}" field="version" help="/plugin/open-stf/help-conditionValue.html">
                   <f:combobox clazz="stf-filter" name="open-stf.condition.version"
                       checkUrl="'descriptorByName/STFBuildWrapper/checkOsVersion?value='+escape(this.value)"/>
                 </f:entry>

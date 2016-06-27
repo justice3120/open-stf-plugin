@@ -441,7 +441,8 @@ public class STFBuildWrapper extends BuildWrapper {
       if (value == null || value.equals("")) {
         return FormValidation.ok();
       }
-      if (value.matches(Constants.REGEX_VARIABLE) || value.equals("any")) {
+      if (value.matches(Constants.REGEX_VARIABLE) || value.matches(Constants.REGEX_REGEX)
+          || value.equals("any")) {
         return FormValidation.ok();
       }
       if (!value.matches(Constants.REGEX_OS_VERSION)) {
