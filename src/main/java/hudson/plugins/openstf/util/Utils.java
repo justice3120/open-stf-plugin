@@ -20,6 +20,7 @@ import net.sf.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -75,12 +76,21 @@ public class Utils {
     }
   }
 
+  public static ListBoxModel getSTFDeviceAttributeListBoxItems() {
+    ListBoxModel items = new ListBoxModel();
+    for (String value: getSTFDeviceAttributeSet()) {
+      items.add(value);
+    }
+
+    return items;
+  }
+
   /**
    * Gets Attribute values of the STF device.
    * @param attribute  Attribute name you want to get the values.
    * @return Attribute values of the STF device as ComboBoxModel.
    */
-  public static ComboBoxModel getSTFDeviceAttributeComboBoxItems(String attribute) {
+  public static ComboBoxModel getSTFDeviceAttributeValueComboBoxItems(String attribute) {
     ComboBoxModel items = new ComboBoxModel();
     items.add("any");
     for (String value: getSTFDeviceAttributeValueSet(attribute)) {
@@ -95,7 +105,7 @@ public class Utils {
    * @param attribute  Attribute name you want to get the values.
    * @return Attribute values of the STF device as ListBoxModel.
    */
-  public static ListBoxModel getSTFDeviceAttributeListBoxItems(String attribute) {
+  public static ListBoxModel getSTFDeviceAttributeValueListBoxItems(String attribute) {
     ListBoxModel items = new ListBoxModel();
     for (String value: getSTFDeviceAttributeValueSet(attribute)) {
       items.add(value);
@@ -327,6 +337,19 @@ public class Utils {
     return FormValidation.ok();
   }
 
+  private static TreeSet<String> getSTFDeviceAttributeSet() {
+    TreeSet<String> items = new TreeSet<String>();
+    String[] excludeAttributes = {"image", "owner", "present", "remoteConnectUrl"};
+
+    Field[] fields = DeviceListResponseDevices.class.getFields();
+    for (Field f: fields) {
+      if (!Arrays.asList(excludeAttributes).contains(f.getName())) {
+        items.add(f.getName());
+      }
+    }
+
+    return items;
+  }
 
   private static TreeSet<String> getSTFDeviceAttributeValueSet(String attribure) {
 

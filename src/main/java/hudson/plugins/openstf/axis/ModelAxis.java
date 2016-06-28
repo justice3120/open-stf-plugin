@@ -62,7 +62,7 @@ public class ModelAxis extends Axis {
           .getDescriptorByType(STFBuildWrapper.DescriptorImpl.class);
       Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.stfToken);
 
-      return Utils.getSTFDeviceAttributeListBoxItems("model");
+      return Utils.getSTFDeviceAttributeValueListBoxItems("model");
     }
 
     @JavaScriptMethod

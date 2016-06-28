@@ -7,6 +7,19 @@
         <table style="margin-left:2em">
           <f:section title="${%Conditions of the device you want to use}">
             <f:block>
+              <f:repeatable var="condition" items="${instance.conditions}">
+                <table>
+                  <f:entry title="ConditionName" field="conditionName">
+                    <f:select value="${condition.name}" />
+                  </f:entry>
+                  <f:entry title="Value" field="conditionValue">
+                    <f:combobox value="${condition.value}" clazz="stf-filter"/>
+                  </f:entry>
+                  <f:entry><f:repeatableDeleteButton /></f:entry>
+                </table>
+              </f:repeatable>
+            </f:block>
+            <f:block>
               <table style="margin-left:2em">
                 <f:entry title="${%Model}" field="model">
                   <f:combobox clazz="stf-filter" name="open-stf.condition.model" />

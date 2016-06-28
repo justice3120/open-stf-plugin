@@ -28,6 +28,7 @@ import hudson.tasks.BuildWrapperDescriptor;
 import hudson.util.ArgumentListBuilder;
 import hudson.util.ComboBoxModel;
 import hudson.util.FormValidation;
+import hudson.util.ListBoxModel;
 import hudson.util.NullStream;
 import io.swagger.client.model.DeviceListResponseDevices;
 import net.sf.json.JSONArray;
@@ -412,6 +413,16 @@ public class STFBuildWrapper extends BuildWrapper {
       return true;
     }
 
+    public ListBoxModel doFillConditionNameItems() {
+      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
+      return Utils.getSTFDeviceAttributeListBoxItems();
+    }
+
+    public ComboBoxModel doFillConditionValueItems(@QueryParameter String conditionName) {
+      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
+      return Utils.getSTFDeviceAttributeValueComboBoxItems(conditionName);
+    }
+
     /**
      * Setting device model values on jelly.
      * This Method called by Jenkins.
@@ -419,7 +430,7 @@ public class STFBuildWrapper extends BuildWrapper {
      */
     public ComboBoxModel doFillModelItems() {
       Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeComboBoxItems("model");
+      return Utils.getSTFDeviceAttributeValueComboBoxItems("model");
     }
 
     /**
@@ -429,7 +440,7 @@ public class STFBuildWrapper extends BuildWrapper {
      */
     public ComboBoxModel doFillVersionItems() {
       Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeComboBoxItems("version");
+      return Utils.getSTFDeviceAttributeValueComboBoxItems("version");
     }
 
     /**
