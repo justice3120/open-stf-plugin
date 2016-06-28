@@ -4,6 +4,7 @@ import com.sun.jersey.api.client.ClientHandlerException;
 import hudson.EnvVars;
 import hudson.Util;
 import hudson.model.Computer;
+import hudson.plugins.openstf.Constants;
 import hudson.plugins.openstf.Messages;
 import hudson.plugins.openstf.exception.ApiFailedException;
 import hudson.util.ComboBoxModel;
@@ -164,8 +165,15 @@ public class Utils {
               Field field = klass.getField(key);
 
               if (field.get(device) != null) {
-                if (!value.equals(field.get(device).toString())) {
-                  di.remove();
+                if (value.matches(Constants.REGEX_REGEX)) {
+                  String regex = value.substring(1, value.length() - 1);
+                  if (!field.get(device).toString().matches(regex)) {
+                    di.remove();
+                  }
+                } else {
+                  if (!value.equals(field.get(device).toString())) {
+                    di.remove();
+                  }
                 }
               } else {
                 if (!value.equals("null")) {
