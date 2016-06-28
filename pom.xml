@@ -9,7 +9,7 @@
 
   <artifactId>open-stf</artifactId>
   <packaging>hpi</packaging>
-  <version>1.2.0</version>
+  <version>1.3.0</version>
   <name>Open STF Plugin</name>
   <developers>
     <developer>
@@ -185,12 +185,12 @@
       <url>http://repo.jenkins-ci.org/public/</url>
     </repository>
     <repository>
-        <id>github-maven</id>
-        <url>https://raw.github.com/justice3120/stf-java-client/hoge-mod-branch/</url>
-        <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>always</updatePolicy>
-        </snapshots>
+      <id>github-maven</id>
+      <url>https://raw.github.com/justice3120/stf-java-client/hoge-mod-branch/</url>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
     </repository>
   </repositories>
 
