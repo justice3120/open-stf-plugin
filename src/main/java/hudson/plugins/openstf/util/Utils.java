@@ -77,6 +77,10 @@ public class Utils {
     }
   }
 
+  /**
+   * Gets Attribute names of the STF device.
+   * @return Attribute names of the STF device as ListBoxModel.
+   */
   public static ListBoxModel getSTFDeviceAttributeListBoxItems() {
     ListBoxModel items = new ListBoxModel();
     for (String value: getSTFDeviceAttributeSet()) {
@@ -210,7 +214,8 @@ public class Utils {
     DeviceListResponseDevices device = null;
 
     DevicesApi stfDevicesApi = new DevicesApi();
-    String fields = "serial,name,model,version,sdk,image,present,owner,remoteConnectUrl,provider,notes,manufacturer";
+    String fields = "serial,name,model,version,sdk,image,present,owner"
+        + ",remoteConnectUrl,provider,notes,manufacturer";
     try {
       device = stfDevicesApi.getDeviceBySerial(deviceId, fields).getDevice();
     } catch (ApiException ex) {

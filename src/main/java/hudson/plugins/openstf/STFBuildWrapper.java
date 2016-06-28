@@ -404,12 +404,14 @@ public class STFBuildWrapper extends BuildWrapper {
       if (conditionArray != null) {
         for (Object conditionObj: conditionArray) {
           JSONObject condition = JSONObject.fromObject(conditionObj);
-          deviceCondition.put(condition.getString("conditionName"), condition.getString("conditionValue"));
+          deviceCondition
+              .put(condition.getString("conditionName"), condition.getString("conditionValue"));
         }
       } else {
         JSONObject condition = formData.optJSONObject("condition");
         if (condition != null) {
-          deviceCondition.put(condition.getString("conditionName"), condition.getString("conditionValue"));
+          deviceCondition
+              .put(condition.getString("conditionName"), condition.getString("conditionValue"));
         }
       }
 
