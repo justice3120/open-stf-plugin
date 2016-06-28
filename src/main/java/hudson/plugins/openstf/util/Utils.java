@@ -142,7 +142,7 @@ public class Utils {
       throws ApiFailedException {
 
     List<DeviceListResponseDevices> deviceList;
-    String fields = "serial,name,model,version,sdk,image,present,owner";
+    String fields = "serial,name,model,version,sdk,image,present,owner,provider,notes,manufacturer";
     DevicesApi stfDevicesApi = new DevicesApi();
 
     try {
@@ -165,13 +165,19 @@ public class Utils {
               Field field = klass.getField(key);
 
               if (field.get(device) != null) {
+                String deviceValue;
+                if (key.equals("provider")) {
+                  deviceValue = device.provider.name;
+                } else {
+                  deviceValue = field.get(device).toString();
+                }
                 if (value.matches(Constants.REGEX_REGEX)) {
                   String regex = value.substring(1, value.length() - 1);
-                  if (!field.get(device).toString().matches(regex)) {
+                  if (!deviceValue.matches(regex)) {
                     di.remove();
                   }
                 } else {
-                  if (!value.equals(field.get(device).toString())) {
+                  if (!value.equals(deviceValue)) {
                     di.remove();
                   }
                 }
@@ -204,7 +210,7 @@ public class Utils {
     DeviceListResponseDevices device = null;
 
     DevicesApi stfDevicesApi = new DevicesApi();
-    String fields = "serial,name,model,version,sdk,image,present,owner,remoteConnectUrl";
+    String fields = "serial,name,model,version,sdk,image,present,owner,remoteConnectUrl,provider,notes,manufacturer";
     try {
       device = stfDevicesApi.getDeviceBySerial(deviceId, fields).getDevice();
     } catch (ApiException ex) {
@@ -370,7 +376,11 @@ public class Utils {
           Field field = klass.getField(attribure);
 
           if (field.get(device) != null) {
-            items.add(field.get(device).toString());
+            if (attribure.equals("provider")) {
+              items.add(device.provider.name);
+            } else {
+              items.add(field.get(device).toString());
+            }
           }
         } catch (NoSuchFieldException ex) {
           //ignore

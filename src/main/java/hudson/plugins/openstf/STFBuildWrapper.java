@@ -59,8 +59,6 @@ public class STFBuildWrapper extends BuildWrapper {
   private AndroidEmulator.DescriptorImpl emulatorDescriptor;
 
   public JSONObject deviceCondition;
-  public String model;
-  public String version;
   public final int deviceReleaseWaitTime;
 
   /**
@@ -71,8 +69,6 @@ public class STFBuildWrapper extends BuildWrapper {
   @DataBoundConstructor
   public STFBuildWrapper(JSONObject deviceCondition, int deviceReleaseWaitTime) {
     this.deviceCondition = deviceCondition;
-    this.model = deviceCondition.getString("model");
-    this.version = deviceCondition.getString("version");
     this.deviceReleaseWaitTime = deviceReleaseWaitTime;
   }
 
@@ -391,6 +387,7 @@ public class STFBuildWrapper extends BuildWrapper {
     @Override
     public BuildWrapper newInstance(StaplerRequest req, JSONObject formData) throws FormException {
       int deviceReleaseWaitTime = 0;
+      JSONObject deviceCondition = new JSONObject();
 
       try {
         deviceReleaseWaitTime = Integer.parseInt(formData.getString("deviceReleaseWaitTime"));
@@ -403,7 +400,18 @@ public class STFBuildWrapper extends BuildWrapper {
         formData.discard("deviceReleaseWaitTime");
       }
 
-      JSONObject deviceCondition = JSONObject.fromObject(formData);
+      JSONArray conditionArray = formData.optJSONArray("condition");
+      if (conditionArray != null) {
+        for (Object conditionObj: conditionArray) {
+          JSONObject condition = JSONObject.fromObject(conditionObj);
+          deviceCondition.put(condition.getString("conditionName"), condition.getString("conditionValue"));
+        }
+      } else {
+        JSONObject condition = formData.optJSONObject("condition");
+        if (condition != null) {
+          deviceCondition.put(condition.getString("conditionName"), condition.getString("conditionValue"));
+        }
+      }
 
       return new STFBuildWrapper(deviceCondition, deviceReleaseWaitTime);
     }

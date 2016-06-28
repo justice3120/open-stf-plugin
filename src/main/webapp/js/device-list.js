@@ -1,3 +1,17 @@
+Behaviour.specify("INPUT.repeatable-add", 'repeatable', 0, function(e) {
+    makeButton(e,function(e) {
+        repeatableSupport.onAdd(e.target);
+
+        //hack jenkins default behaviour
+        if (Q('#openSTFPluginContent').find(Q(e.target)).length) {
+          Q('#openSTFPluginContent').find('.repeated-chunk.last').find('.stf-filter').each(function() {
+            Q(this).blur(updateDeviceList);
+          });
+        }
+    });
+    e = null;
+});
+
 Q(document).ready(function(){
   updateDeviceList();
 
@@ -9,9 +23,11 @@ Q(document).ready(function(){
 function updateDeviceList(evt) {
     var filter = {};
     Q('.stf-filter').each(function(){
-      var key = this.name.split(".")[2];
-      var value = this.value == "" ? "any" : this.value;
-      filter[key] = value;
+      var key = Q(this).closest('tbody').find('select').val();
+      var value = Q(this).val() == "" ? "any" : Q(this).val();
+      if (key) {
+        filter[key] = value;
+      }
     });
     desc.getStfApiEndpoint(function(t){
         var stfUrlArray = t.responseJSON.split("/");
@@ -25,7 +41,7 @@ function updateDeviceList(evt) {
                   var tdKey = Q('<td />').text(k).css('color', 'white');
                   var tdValue = Q('<td />').text(v).css('color', 'white');
 
-                  if (k == 'owner' && v != null) {
+                  if ((k == 'owner' || k == 'provider') && v != null) {
                     tdValue.text(v.name);
                   }
 
