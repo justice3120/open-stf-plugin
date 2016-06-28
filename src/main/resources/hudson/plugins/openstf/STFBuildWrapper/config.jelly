@@ -1,5 +1,7 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 
+  <script type="text/javascript" src="${rootURL}/plugin/open-stf/js/vendor/jquery.balloon.min.js" />
+
   <f:block>
     <link href="${rootURL}/plugin/open-stf/css/combo-box.css" rel="stylesheet" type="text/css" />
     <table style="margin-left:2em">
