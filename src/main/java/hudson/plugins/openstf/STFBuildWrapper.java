@@ -104,6 +104,12 @@ public class STFBuildWrapper extends BuildWrapper {
     String adbPrivateKey = descriptor.adbPrivateKey;
     JSONObject deviceFilter = Utils.expandVariables(envVars, buildVars, this.deviceCondition);
 
+    if (!Utils.validateDeviceFilter(deviceFilter)) {
+      log(logger, Messages.INVALID_DEVICE_CONDITION_SET_IS_GIVEN());
+      build.setResult(Result.NOT_BUILT);
+      return null;
+    }
+
     Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
 
     // SDK location
@@ -454,20 +460,15 @@ public class STFBuildWrapper extends BuildWrapper {
     }
 
     /**
-     * Checking whether the given os version is valid.
+     * Checking whether the given condition value is valid.
      * This Method called by Jenkins.
      * @return validation result.
      */
-    public FormValidation doCheckOsVersion(@QueryParameter String value) {
-      if (value == null || value.equals("")) {
-        return FormValidation.ok();
-      }
-      if (value.matches(Constants.REGEX_VARIABLE) || value.matches(Constants.REGEX_REGEX)
-          || value.equals("any")) {
-        return FormValidation.ok();
-      }
-      if (!value.matches(Constants.REGEX_OS_VERSION)) {
-        return FormValidation.error(Messages.INVALID_OS_VERSION());
+    public FormValidation doCheckConditionValue(@QueryParameter String value) {
+      if (value.matches(Constants.REGEX_REGEX)) {
+        if (!Utils.validateRegexValue(value)) {
+          return FormValidation.error(Messages.INVALID_REGEXP_VALUE());
+        }
       }
       return FormValidation.ok();
     }
@@ -502,6 +503,10 @@ public class STFBuildWrapper extends BuildWrapper {
      */
     @JavaScriptMethod
     public JSONArray getDeviceListJSON(JSONObject filter) {
+
+      if (!Utils.validateDeviceFilter(filter)) {
+        return new JSONArray();
+      }
 
       Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
 
