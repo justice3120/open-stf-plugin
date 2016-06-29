@@ -35,11 +35,11 @@ function updateDeviceList(evt) {
             var devices = t.responseJSON;
             Q('#deviceList').html('');
             Q.each(devices, function(index, device){
-              var deviceAttrList = Q('<table />');
+              var deviceAttrList = Q('<table />').addClass('device-attr-table');
               Q.each(device, function(k, v){
                 if (Q.inArray(k, ['image', 'remoteConnectUrl']) == -1) {
-                  var tdKey = Q('<td />').text(k).css('color', 'white');
-                  var tdValue = Q('<td />').text(v).css('color', 'white');
+                  var tdKey = Q('<td />').text(k).addClass('device-attr');
+                  var tdValue = Q('<td />').text(v).addClass('device-attr');
 
                   if ((k == 'owner' || k == 'provider') && v != null) {
                     tdValue.text(v.name);
