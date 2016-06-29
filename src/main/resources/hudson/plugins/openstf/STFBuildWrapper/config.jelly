@@ -9,7 +9,8 @@
             <f:block>
               <table style="margin-left:2em">
                 <f:entry title="${%Model}" field="model" help="/plugin/open-stf/help-conditionValue.html">
-                  <f:combobox clazz="stf-filter" name="open-stf.condition.model" />
+                  <f:combobox clazz="stf-filter" name="open-stf.condition.model"
+                      checkUrl="'descriptorByName/STFBuildWrapper/checkModel?value='+escape(this.value)"/>
                 </f:entry>
                 <f:entry title="${%OS Version}" field="version" help="/plugin/open-stf/help-conditionValue.html">
                   <f:combobox clazz="stf-filter" name="open-stf.condition.version"
