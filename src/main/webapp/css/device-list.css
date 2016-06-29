@@ -70,3 +70,8 @@
 .device-list-item-status.disconnected {
   background-color: lightgray;
 }
+
+.device-attr {
+  color: white;
+  line-height: 1em;
+}
