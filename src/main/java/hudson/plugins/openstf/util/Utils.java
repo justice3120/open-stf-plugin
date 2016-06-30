@@ -190,7 +190,7 @@ public class Utils {
     try {
       device = stfDevicesApi.getDeviceBySerial(deviceId, fields).getDevice();
     } catch (ApiException ex) {
-      throw new ApiFailedException("GET /devices/" + device.serial + " API failed");
+      throw new ApiFailedException("GET /devices/" + deviceId + " API failed");
     }
     return device;
   }
