@@ -1,54 +1,61 @@
-updateDeviceList();
+Q(document).ready(function(){
+  updateDeviceList();
 
-var stfElements = document.getElementsByClassName('stf-filter');
-for (var i = 0; i < stfElements.length; i++) {
-    stfElements[i].addEventListener('blur', updateDeviceList, false);
-}
+  Q('.stf-filter').each(function(){
+    Q(this).blur(updateDeviceList);
+  });
+});
 
 function updateDeviceList(evt) {
     var filter = {};
-    var conditions = document.getElementsByClassName('stf-filter');
-    for (var i = 0; i < conditions.length; i++) {
-      var key = conditions[i].name.split(".")[2];
-      var value = conditions[i].value == "" ? "any" : conditions[i].value;
+    Q('.stf-filter').each(function(){
+      var key = this.name.split(".")[2];
+      var value = this.value == "" ? "any" : this.value;
       filter[key] = value;
-    }
+    });
     desc.getStfApiEndpoint(function(t){
         var stfUrlArray = t.responseJSON.split("/");
         desc.getDeviceListJSON(filter, function(t) {
             var devices = t.responseJSON;
-            document.getElementById('deviceList').innerHTML = "";
-            for (var i = 0; i < devices.length; i++) {
-                var div = document.createElement("div");
-                div.setAttribute("class", "device-list-item");
-                var img = document.createElement("img");
-                img.setAttribute("src", stfUrlArray[0] + "//" + stfUrlArray[2] + "/static/app/devices/icon/x120/" + (devices[i].image == "" ?  "_default.jpg" : devices[i].image));
-                img.setAttribute("class", "device-list-item-image");
-                var pName = document.createElement("p");
-                pName.setAttribute("class", "device-list-item-name");
-                pName.innerText = devices[i].name == "" ? "(No Name)" : devices[i].name;
-                var pStatus = document.createElement("p");
-                if (devices[i].present) {
-                    if (devices[i].owner == null) {
-                        pStatus.innerText = "Ready";
-                        pStatus.setAttribute("class", "device-list-item-status ready");
-                    } else {
-                        img.setAttribute("class", "device-list-item-image device-is-busy");
-                        pName.setAttribute("class", "device-list-item-name device-is-busy");
-                        pStatus.innerText = "Using";
-                        pStatus.setAttribute("class", "device-list-item-status using");
-                    }
-                } else {
-                    img.setAttribute("class", "device-list-item-image device-is-busy");
-                    pName.setAttribute("class", "device-list-item-name device-is-busy");
-                    pStatus.innerText = "Disconnected";
-                    pStatus.setAttribute("class", "device-list-item-status disconnected");
+            Q('#deviceList').html('');
+            Q.each(devices, function(index, device){
+              var deviceAttrList = Q('<table />').addClass('device-attr-table');
+              Q.each(device, function(k, v){
+                if (Q.inArray(k, ['image', 'remoteConnectUrl']) == -1) {
+                  var tdKey = Q('<td />').text(k).addClass('device-attr');
+                  var tdValue = Q('<td />').text(v).addClass('device-attr');
+
+                  if (k == 'owner' && v != null) {
+                    tdValue.text(v.name);
+                  }
+
+                  Q('<tr />').append(tdKey).append(tdValue).appendTo(deviceAttrList);
                 }
-                div.appendChild(img);
-                div.appendChild(pName);
-                div.appendChild(pStatus);
-                document.getElementById('deviceList').appendChild(div);
-            }
+              });
+              var div = Q('<div />').addClass('device-list-item').balloon({
+                html: true,
+                contents: deviceAttrList
+              });
+              var imgUrl = stfUrlArray[0] + "//" + stfUrlArray[2] + "/static/app/devices/icon/x120/" + (device.image == "" ?  "_default.jpg" : device.image);
+              var img = Q('<img />').addClass('device-list-item-image').attr('src', imgUrl);
+              var deviceName = device.name == "" ? "(No Name)" : device.name;
+              var pName = Q('<p />').addClass('device-list-item-name').text(deviceName);
+              var pStatus = Q('<p />');
+              if (device.present) {
+                if (device.owner == null) {
+                  pStatus.text('Ready').addClass('device-list-item-status ready');
+                } else {
+                  img.addClass('device-is-busy');
+                  pName.addClass('device-is-busy');
+                  pStatus.text('Using').addClass('device-list-item-status using');
+                }
+              } else {
+                img.addClass('device-is-busy');
+                pName.addClass('device-is-busy');
+                pStatus.text('Disconnected').addClass('device-list-item-status disconnected');
+              }
+              Q('#deviceList').append(div.append(img).append(pName).append(pStatus));
+            });
         });
     });
 }
