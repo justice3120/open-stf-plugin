@@ -2,9 +2,11 @@
   <f:entry title="${%Name}" field="name">
     <f:textbox default="" />
   </f:entry>
+  <f:entry title="${%Condition Type}" field="type">
+    <f:select value="${instance.type}"/>
+  </f:entry>
   <f:entry title="${%Value}" field="values" help="/plugin/open-stf/help-multipleSelect.html">
     <f:select multiple="true" size="10" />
-    <st:bind var="descVersionAxis" value="${descriptor}"/>
     <script type="text/javascript" src="${rootURL}/plugin/open-stf/js/select-axis-values.js" />
   </f:entry>
 </j:jelly>

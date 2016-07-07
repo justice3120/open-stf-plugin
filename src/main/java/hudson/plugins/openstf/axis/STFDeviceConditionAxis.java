@@ -10,48 +10,48 @@ import hudson.util.ListBoxModel;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.bind.JavaScriptMethod;
 
 import java.util.List;
 
-public class VersionAxis extends Axis {
+public class STFDeviceConditionAxis extends Axis {
+
+  public String type;
 
   @DataBoundConstructor
-  public VersionAxis(String name, List<String> values) {
+  public STFDeviceConditionAxis(String name, String type, List<String> values) {
     super(name, values);
+    this.type = type;
   }
 
   @Extension
   public static class DescriptorImpl extends AxisDescriptor {
 
-    List<String> cachedValues = null;
-
     public DescriptorImpl() {
-      super(VersionAxis.class);
+      super(STFDeviceConditionAxis.class);
       load();
     }
 
     @Override
     public Axis newInstance(StaplerRequest req, JSONObject formData) throws FormException {
       String name = formData.getString("name");
+      String type = formData.getString("type");
       List<String> values = JSONArray.toList(formData.getJSONArray("values"), String.class);
-      cachedValues = values;
-      save();
-      return new VersionAxis(name, values);
+      return new STFDeviceConditionAxis(name, type, values);
     }
 
     @Override
     public String getDisplayName() {
-      return "STF OS Version";
+      return "STF Device Condition";
     }
 
     /**
-     * Setting device model values on jelly.
+     * Setting device condition types on jelly.
      * This Method called by Jenkins.
-     * @return List of Device Model values.
+     * @return List of Device condition types.
      */
-    public ListBoxModel doFillValuesItems() {
+    public ListBoxModel doFillTypeItems() {
 
       Hudson hudsonInstance = Hudson.getInstance();
       if (hudsonInstance == null) {
@@ -62,12 +62,26 @@ public class VersionAxis extends Axis {
           .getDescriptorByType(STFBuildWrapper.DescriptorImpl.class);
       Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.stfToken);
 
-      return Utils.getSTFDeviceAttributeValueListBoxItems("version");
+      return Utils.getSTFDeviceAttributeListBoxItems();
     }
 
-    @JavaScriptMethod
-    public JSONArray getCachedValuesJSON() {
-      return JSONArray.fromObject(cachedValues);
+    /**
+     * Setting device condition values on jelly.
+     * This Method called by Jenkins.
+     * @return List of Device condition values.
+     */
+    public ListBoxModel doFillValuesItems(@QueryParameter String type) {
+
+      Hudson hudsonInstance = Hudson.getInstance();
+      if (hudsonInstance == null) {
+        return new ListBoxModel();
+      }
+
+      STFBuildWrapper.DescriptorImpl descriptor = hudsonInstance
+          .getDescriptorByType(STFBuildWrapper.DescriptorImpl.class);
+      Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.stfToken);
+
+      return Utils.getSTFDeviceAttributeValueListBoxItems(type);
     }
   }
 }

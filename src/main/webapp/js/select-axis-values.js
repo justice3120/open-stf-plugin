@@ -1,15 +1,14 @@
-jQuery(function() {
-    jQuery.each(jQuery('select[fillurl *= "hudson.plugins.openstf.axis"]'), function(i, select) {
-        jQuery(select).on('filled', function(e) {
-            var axisName = jQuery(e.target).attr('fillurl').split('/')[5].split('.').last();
-            eval("desc" + axisName).getCachedValuesJSON(function(t) {
-                var cachedValues = t.responseJSON;
-                jQuery.each(jQuery(select).children('option'), function(i, option) {
-                    if (cachedValues.includes(jQuery(option).text())) {
-                        jQuery(option).attr('selected', true);
-                    }
-                })
-            });
+Q(function() {
+    Q.each(Q('select[fillurl *= "hudson.plugins.openstf.axis.STFDeviceConditionAxis/fillValuesItems"]'), function(i, select) {
+        Q(select).on('filled', function(e) {
+            // Convert string (formated: "[x, y, z]") to Array
+            var cachedValues = Q(select).attr('value').slice(1, -1).replace(/,\s+|\s+,/g, ',').split(',');
+
+            Q.each(Q(select).children('option'), function(i, option) {
+                if (cachedValues.includes(Q(option).text())) {
+                    Q(option).attr('selected', true);
+                }
+            })
         });
     });
 });
