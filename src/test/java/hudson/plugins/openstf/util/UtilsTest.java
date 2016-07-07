@@ -82,7 +82,7 @@ public class UtilsTest {
   }
 
   @Test
-  public void testgetSTFDeviceAttributeValueComboBoxItemsForModel() throws Exception {
+  public void testGetSTFDeviceAttributeValueComboBoxItemsForModel() throws Exception {
     setupSTFApiClient();
 
     ComboBoxModel items = Utils.getSTFDeviceAttributeValueComboBoxItems("model");
@@ -91,7 +91,7 @@ public class UtilsTest {
   }
 
   @Test
-  public void testgetSTFDeviceAttributeValueComboBoxItemsForVersion() throws Exception {
+  public void testGetSTFDeviceAttributeValueComboBoxItemsForVersion() throws Exception {
     setupSTFApiClient();
 
     ComboBoxModel items = Utils.getSTFDeviceAttributeValueComboBoxItems("version");
