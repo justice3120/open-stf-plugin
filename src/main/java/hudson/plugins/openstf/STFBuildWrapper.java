@@ -465,7 +465,7 @@ public class STFBuildWrapper extends BuildWrapper {
      * @return validation result.
      */
     public FormValidation doCheckConditionValue(@QueryParameter String value) {
-      if (value.matches(Constants.REGEX_REGEX)) {
+      if (value.matches(Constants.REGEX_ESCAPED_REGEX_VALUE)) {
         if (!Utils.validateRegexValue(value)) {
           return FormValidation.error(Messages.INVALID_REGEXP_VALUE());
         }

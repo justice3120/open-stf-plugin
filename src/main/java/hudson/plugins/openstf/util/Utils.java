@@ -177,7 +177,7 @@ public class Utils {
                 } else {
                   deviceValue = field.get(device).toString();
                 }
-                if (value.matches(Constants.REGEX_REGEX)) {
+                if (value.matches(Constants.REGEX_ESCAPED_REGEX_VALUE)) {
                   String regex = value.substring(1, value.length() - 1);
                   if (!deviceValue.matches(regex)) {
                     di.remove();
@@ -319,7 +319,7 @@ public class Utils {
       String key = fi.next();
       String value = filter.get(key).toString();
 
-      if (value.matches(Constants.REGEX_REGEX)) {
+      if (value.matches(Constants.REGEX_ESCAPED_REGEX_VALUE)) {
         if (!validateRegexValue(value)) {
           return false;
         }
