@@ -4,21 +4,23 @@
 
   <f:block>
     <link href="${rootURL}/plugin/open-stf/css/combo-box.css" rel="stylesheet" type="text/css" />
-    <table style="margin-left:2em">
+    <table style="margin-left:2em" id="openSTFPluginContent">
       <f:block>
         <table style="margin-left:2em">
           <f:section title="${%Conditions of the device you want to use}">
             <f:block>
-              <table style="margin-left:2em">
-                <f:entry title="${%Model}" field="model" help="/plugin/open-stf/help-conditionValue.html">
-                  <f:combobox clazz="stf-filter" name="open-stf.condition.model"
-                      checkUrl="'descriptorByName/STFBuildWrapper/checkModel?value='+escape(this.value)"/>
-                </f:entry>
-                <f:entry title="${%OS Version}" field="version" help="/plugin/open-stf/help-conditionValue.html">
-                  <f:combobox clazz="stf-filter" name="open-stf.condition.version"
-                      checkUrl="'descriptorByName/STFBuildWrapper/checkOsVersion?value='+escape(this.value)"/>
-                </f:entry>
-              </table>
+              <f:repeatable var="condition" items="${instance.deviceCondition.keySet()}">
+                <table>
+                  <f:entry title="ConditionName" field="conditionName">
+                    <f:select value="${condition.toString()}" />
+                  </f:entry>
+                  <f:entry title="Value" field="conditionValue" help="/plugin/open-stf/help-conditionValue.html">
+                    <f:combobox value="${instance.deviceCondition.optString(condition.toString())}" clazz="stf-filter"
+                        checkUrl="'descriptorByName/STFBuildWrapper/checkConditionValue?value='+escape(this.value)"/>
+                  </f:entry>
+                  <f:entry><f:repeatableDeleteButton /></f:entry>
+                </table>
+              </f:repeatable>
             </f:block>
           </f:section>
           <f:section title="${%Device list that might be used}">

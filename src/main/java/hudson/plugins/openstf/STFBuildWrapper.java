@@ -28,6 +28,7 @@ import hudson.tasks.BuildWrapperDescriptor;
 import hudson.util.ArgumentListBuilder;
 import hudson.util.ComboBoxModel;
 import hudson.util.FormValidation;
+import hudson.util.ListBoxModel;
 import hudson.util.NullStream;
 import io.swagger.client.model.DeviceListResponseDevices;
 import net.sf.json.JSONArray;
@@ -58,8 +59,6 @@ public class STFBuildWrapper extends BuildWrapper {
   private AndroidEmulator.DescriptorImpl emulatorDescriptor;
 
   public JSONObject deviceCondition;
-  public String model;
-  public String version;
   public final int deviceReleaseWaitTime;
 
   /**
@@ -70,8 +69,6 @@ public class STFBuildWrapper extends BuildWrapper {
   @DataBoundConstructor
   public STFBuildWrapper(JSONObject deviceCondition, int deviceReleaseWaitTime) {
     this.deviceCondition = deviceCondition;
-    this.model = deviceCondition.getString("model");
-    this.version = deviceCondition.getString("version");
     this.deviceReleaseWaitTime = deviceReleaseWaitTime;
   }
 
@@ -396,6 +393,7 @@ public class STFBuildWrapper extends BuildWrapper {
     @Override
     public BuildWrapper newInstance(StaplerRequest req, JSONObject formData) throws FormException {
       int deviceReleaseWaitTime = 0;
+      JSONObject deviceCondition = new JSONObject();
 
       try {
         deviceReleaseWaitTime = Integer.parseInt(formData.getString("deviceReleaseWaitTime"));
@@ -408,7 +406,20 @@ public class STFBuildWrapper extends BuildWrapper {
         formData.discard("deviceReleaseWaitTime");
       }
 
-      JSONObject deviceCondition = JSONObject.fromObject(formData);
+      JSONArray conditionArray = formData.optJSONArray("condition");
+      if (conditionArray != null) {
+        for (Object conditionObj: conditionArray) {
+          JSONObject condition = JSONObject.fromObject(conditionObj);
+          deviceCondition
+              .put(condition.getString("conditionName"), condition.getString("conditionValue"));
+        }
+      } else {
+        JSONObject condition = formData.optJSONObject("condition");
+        if (condition != null) {
+          deviceCondition
+              .put(condition.getString("conditionName"), condition.getString("conditionValue"));
+        }
+      }
 
       return new STFBuildWrapper(deviceCondition, deviceReleaseWaitTime);
     }
@@ -418,6 +429,16 @@ public class STFBuildWrapper extends BuildWrapper {
       return true;
     }
 
+    public ListBoxModel doFillConditionNameItems() {
+      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
+      return Utils.getSTFDeviceAttributeListBoxItems();
+    }
+
+    public ComboBoxModel doFillConditionValueItems(@QueryParameter String conditionName) {
+      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
+      return Utils.getSTFDeviceAttributeValueComboBoxItems(conditionName);
+    }
+
     /**
      * Setting device model values on jelly.
      * This Method called by Jenkins.
@@ -425,7 +446,7 @@ public class STFBuildWrapper extends BuildWrapper {
      */
     public ComboBoxModel doFillModelItems() {
       Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeComboBoxItems("model");
+      return Utils.getSTFDeviceAttributeValueComboBoxItems("model");
     }
 
     /**
@@ -435,44 +456,19 @@ public class STFBuildWrapper extends BuildWrapper {
      */
     public ComboBoxModel doFillVersionItems() {
       Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeComboBoxItems("version");
+      return Utils.getSTFDeviceAttributeValueComboBoxItems("version");
     }
 
     /**
-     * Checking whether the given model is valid.
+     * Checking whether the given condition value is valid.
      * This Method called by Jenkins.
      * @return validation result.
      */
-    public FormValidation doCheckModel(@QueryParameter String value) {
+    public FormValidation doCheckConditionValue(@QueryParameter String value) {
       if (value.matches(Constants.REGEX_REGEX)) {
         if (!Utils.validateRegexValue(value)) {
           return FormValidation.error(Messages.INVALID_REGEXP_VALUE());
         }
-      }
-      return FormValidation.ok();
-    }
-
-    /**
-     * Checking whether the given os version is valid.
-     * This Method called by Jenkins.
-     * @return validation result.
-     */
-    public FormValidation doCheckOsVersion(@QueryParameter String value) {
-      if (value == null || value.equals("")) {
-        return FormValidation.ok();
-      }
-      if (value.matches(Constants.REGEX_VARIABLE) || value.equals("any")) {
-        return FormValidation.ok();
-      }
-      if (value.matches(Constants.REGEX_REGEX)) {
-        if (Utils.validateRegexValue(value)) {
-          return FormValidation.ok();
-        } else {
-          return FormValidation.error(Messages.INVALID_REGEXP_VALUE());
-        }
-      }
-      if (!value.matches(Constants.REGEX_OS_VERSION)) {
-        return FormValidation.error(Messages.INVALID_OS_VERSION());
       }
       return FormValidation.ok();
     }
