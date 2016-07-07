@@ -107,6 +107,12 @@ public class STFBuildWrapper extends BuildWrapper {
     String adbPrivateKey = descriptor.adbPrivateKey;
     JSONObject deviceFilter = Utils.expandVariables(envVars, buildVars, this.deviceCondition);
 
+    if (!Utils.validateDeviceFilter(deviceFilter)) {
+      log(logger, Messages.INVALID_DEVICE_CONDITION_SET_IS_GIVEN());
+      build.setResult(Result.NOT_BUILT);
+      return null;
+    }
+
     Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
 
     // SDK location
@@ -433,6 +439,20 @@ public class STFBuildWrapper extends BuildWrapper {
     }
 
     /**
+     * Checking whether the given model is valid.
+     * This Method called by Jenkins.
+     * @return validation result.
+     */
+    public FormValidation doCheckModel(@QueryParameter String value) {
+      if (value.matches(Constants.REGEX_REGEX)) {
+        if (!Utils.validateRegexValue(value)) {
+          return FormValidation.error(Messages.INVALID_REGEXP_VALUE());
+        }
+      }
+      return FormValidation.ok();
+    }
+
+    /**
      * Checking whether the given os version is valid.
      * This Method called by Jenkins.
      * @return validation result.
@@ -443,6 +463,13 @@ public class STFBuildWrapper extends BuildWrapper {
       }
       if (value.matches(Constants.REGEX_VARIABLE) || value.equals("any")) {
         return FormValidation.ok();
+      }
+      if (value.matches(Constants.REGEX_REGEX)) {
+        if (Utils.validateRegexValue(value)) {
+          return FormValidation.ok();
+        } else {
+          return FormValidation.error(Messages.INVALID_REGEXP_VALUE());
+        }
       }
       if (!value.matches(Constants.REGEX_OS_VERSION)) {
         return FormValidation.error(Messages.INVALID_OS_VERSION());
@@ -480,6 +507,10 @@ public class STFBuildWrapper extends BuildWrapper {
      */
     @JavaScriptMethod
     public JSONArray getDeviceListJSON(JSONObject filter) {
+
+      if (!Utils.validateDeviceFilter(filter)) {
+        return new JSONArray();
+      }
 
       Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
 

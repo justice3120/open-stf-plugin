@@ -4,6 +4,7 @@ import com.sun.jersey.api.client.ClientHandlerException;
 import hudson.EnvVars;
 import hudson.Util;
 import hudson.model.Computer;
+import hudson.plugins.openstf.Constants;
 import hudson.plugins.openstf.Messages;
 import hudson.plugins.openstf.exception.ApiFailedException;
 import hudson.util.ComboBoxModel;
@@ -25,6 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class Utils {
 
@@ -154,8 +157,15 @@ public class Utils {
               Field field = klass.getField(key);
 
               if (field.get(device) != null) {
-                if (!value.equals(field.get(device).toString())) {
-                  di.remove();
+                if (value.matches(Constants.REGEX_REGEX)) {
+                  String regex = value.substring(1, value.length() - 1);
+                  if (!field.get(device).toString().matches(regex)) {
+                    di.remove();
+                  }
+                } else {
+                  if (!value.equals(field.get(device).toString())) {
+                    di.remove();
+                  }
                 }
               } else {
                 if (!value.equals("null")) {
@@ -261,6 +271,40 @@ public class Utils {
     } catch (ApiException ex) {
       throw new ApiFailedException("DELETE /api/v1/user/devices/" + device.serial + " API failed");
     }
+  }
+
+  /**
+   * Validates whether the given string looks like a valid Regex value.
+   * @param value The Regex string, such as: "/REGEX_VALUE/"
+   * @return Whether the Regex value looks valid or not.
+  **/
+  public static boolean validateRegexValue(String value) {
+    try {
+      String regex = value.substring(1, value.length() - 1);
+      Pattern.compile(regex);
+    } catch (PatternSyntaxException e) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Validates whether the given device filter looks like a valid Regex value.
+   * @param filter The device condition set.
+   * @return Whether the Regex value looks valid or not.
+  **/
+  public static boolean validateDeviceFilter(JSONObject filter) {
+    for (Iterator<String> fi = filter.keys(); fi.hasNext(); ) {
+      String key = fi.next();
+      String value = filter.get(key).toString();
+
+      if (value.matches(Constants.REGEX_REGEX)) {
+        if (!validateRegexValue(value)) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   /**
