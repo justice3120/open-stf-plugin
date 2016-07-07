@@ -55,22 +55,22 @@ function updateDeviceList(evt) {
               var imgUrl = stfUrlArray[0] + "//" + stfUrlArray[2] + "/static/app/devices/icon/x120/" + (device.image == "" ?  "_default.jpg" : device.image);
               var img = Q('<img />').addClass('device-list-item-image').attr('src', imgUrl);
               var deviceName = device.name == "" ? "(No Name)" : device.name;
-              var pName = Q('<p />').addClass('device-list-item-name').text(deviceName);
-              var pStatus = Q('<p />');
+              var divName = Q('<div />').addClass('device-list-item-name').text(deviceName);
+              var divStatus = Q('<div />');
               if (device.present) {
                 if (device.owner == null) {
-                  pStatus.text('Ready').addClass('device-list-item-status ready');
+                  divStatus.text('Ready').addClass('device-list-item-status ready');
                 } else {
                   img.addClass('device-is-busy');
-                  pName.addClass('device-is-busy');
-                  pStatus.text('Using').addClass('device-list-item-status using');
+                  divName.addClass('device-is-busy');
+                  divStatus.text('Using').addClass('device-list-item-status using');
                 }
               } else {
                 img.addClass('device-is-busy');
-                pName.addClass('device-is-busy');
-                pStatus.text('Disconnected').addClass('device-list-item-status disconnected');
+                divName.addClass('device-is-busy');
+                divStatus.text('Disconnected').addClass('device-list-item-status disconnected');
               }
-              Q('#deviceList').append(div.append(img).append(pName).append(pStatus));
+              Q('#deviceList').append(div.append(img).append(divName).append(divStatus));
             });
         });
     });
