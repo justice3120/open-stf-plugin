@@ -406,7 +406,7 @@ public class Utils {
     return items;
   }
 
-  private static TreeSet<String> getSTFDeviceAttributeValueSet(String attribure) {
+  private static TreeSet<String> getSTFDeviceAttributeValueSet(String attribute) {
 
     TreeSet<String> items = new TreeSet<String>();
 
@@ -414,10 +414,10 @@ public class Utils {
       for (DeviceListResponseDevices device : getDeviceList()) {
         Class klass = device.getClass();
         try {
-          Field field = klass.getField(attribure);
+          Field field = klass.getField(attribute);
 
           if (field.get(device) != null) {
-            if (attribure.equals("provider")) {
+            if (attribute.equals("provider")) {
               items.add(device.provider.name);
             } else {
               items.add(field.get(device).toString());
