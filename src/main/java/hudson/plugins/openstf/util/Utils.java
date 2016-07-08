@@ -21,6 +21,7 @@ import net.sf.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -79,11 +80,24 @@ public class Utils {
   }
 
   /**
+   * Gets Attribute names of the STF device.
+   * @return Attribute names of the STF device as ListBoxModel.
+   */
+  public static ListBoxModel getSTFDeviceAttributeListBoxItems() {
+    ListBoxModel items = new ListBoxModel();
+    for (String value: getSTFDeviceAttributeSet()) {
+      items.add(value);
+    }
+
+    return items;
+  }
+
+  /**
    * Gets Attribute values of the STF device.
    * @param attribute  Attribute name you want to get the values.
    * @return Attribute values of the STF device as ComboBoxModel.
    */
-  public static ComboBoxModel getSTFDeviceAttributeComboBoxItems(String attribute) {
+  public static ComboBoxModel getSTFDeviceAttributeValueComboBoxItems(String attribute) {
     ComboBoxModel items = new ComboBoxModel();
     items.add("any");
     for (String value: getSTFDeviceAttributeValueSet(attribute)) {
@@ -98,7 +112,7 @@ public class Utils {
    * @param attribute  Attribute name you want to get the values.
    * @return Attribute values of the STF device as ListBoxModel.
    */
-  public static ListBoxModel getSTFDeviceAttributeListBoxItems(String attribute) {
+  public static ListBoxModel getSTFDeviceAttributeValueListBoxItems(String attribute) {
     ListBoxModel items = new ListBoxModel();
     for (String value: getSTFDeviceAttributeValueSet(attribute)) {
       items.add(value);
@@ -134,7 +148,7 @@ public class Utils {
       throws ApiFailedException {
 
     List<DeviceListResponseDevices> deviceList;
-    String fields = "serial,name,model,version,sdk,image,present,owner";
+    String fields = "serial,name,model,version,sdk,image,present,owner,provider,notes,manufacturer";
     DevicesApi stfDevicesApi = new DevicesApi();
 
     try {
@@ -157,13 +171,19 @@ public class Utils {
               Field field = klass.getField(key);
 
               if (field.get(device) != null) {
-                if (value.matches(Constants.REGEX_REGEX)) {
+                String deviceValue;
+                if (key.equals("provider")) {
+                  deviceValue = device.provider.name;
+                } else {
+                  deviceValue = field.get(device).toString();
+                }
+                if (value.matches(Constants.REGEX_ESCAPED_REGEX_VALUE)) {
                   String regex = value.substring(1, value.length() - 1);
-                  if (!field.get(device).toString().matches(regex)) {
+                  if (!deviceValue.matches(regex)) {
                     di.remove();
                   }
                 } else {
-                  if (!value.equals(field.get(device).toString())) {
+                  if (!value.equals(deviceValue)) {
                     di.remove();
                   }
                 }
@@ -196,7 +216,8 @@ public class Utils {
     DeviceListResponseDevices device = null;
 
     DevicesApi stfDevicesApi = new DevicesApi();
-    String fields = "serial,name,model,version,sdk,image,present,owner,remoteConnectUrl";
+    String fields = "serial,name,model,version,sdk,image,present,owner"
+        + ",remoteConnectUrl,provider,notes,manufacturer";
     try {
       device = stfDevicesApi.getDeviceBySerial(deviceId, fields).getDevice();
     } catch (ApiException ex) {
@@ -298,7 +319,7 @@ public class Utils {
       String key = fi.next();
       String value = filter.get(key).toString();
 
-      if (value.matches(Constants.REGEX_REGEX)) {
+      if (value.matches(Constants.REGEX_ESCAPED_REGEX_VALUE)) {
         if (!validateRegexValue(value)) {
           return false;
         }
@@ -371,8 +392,21 @@ public class Utils {
     return FormValidation.ok();
   }
 
+  private static TreeSet<String> getSTFDeviceAttributeSet() {
+    TreeSet<String> items = new TreeSet<String>();
+    String[] excludeAttributes = {"image", "owner", "present", "remoteConnectUrl"};
 
-  private static TreeSet<String> getSTFDeviceAttributeValueSet(String attribure) {
+    Field[] fields = DeviceListResponseDevices.class.getFields();
+    for (Field f: fields) {
+      if (!Arrays.asList(excludeAttributes).contains(f.getName())) {
+        items.add(f.getName());
+      }
+    }
+
+    return items;
+  }
+
+  private static TreeSet<String> getSTFDeviceAttributeValueSet(String attribute) {
 
     TreeSet<String> items = new TreeSet<String>();
 
@@ -380,10 +414,14 @@ public class Utils {
       for (DeviceListResponseDevices device : getDeviceList()) {
         Class klass = device.getClass();
         try {
-          Field field = klass.getField(attribure);
+          Field field = klass.getField(attribute);
 
           if (field.get(device) != null) {
-            items.add(field.get(device).toString());
+            if (attribute.equals("provider")) {
+              items.add(device.provider.name);
+            } else {
+              items.add(field.get(device).toString());
+            }
           }
         } catch (NoSuchFieldException ex) {
           //ignore

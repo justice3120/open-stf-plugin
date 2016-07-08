@@ -62,7 +62,7 @@ public class VersionAxis extends Axis {
           .getDescriptorByType(STFBuildWrapper.DescriptorImpl.class);
       Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.stfToken);
 
-      return Utils.getSTFDeviceAttributeListBoxItems("version");
+      return Utils.getSTFDeviceAttributeValueListBoxItems("version");
     }
 
     @JavaScriptMethod

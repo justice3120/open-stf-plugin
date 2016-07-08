@@ -82,19 +82,19 @@ public class UtilsTest {
   }
 
   @Test
-  public void testGetSTFDeviceAttributeComboBoxItemsForModel() throws Exception {
+  public void testGetSTFDeviceAttributeValueComboBoxItemsForModel() throws Exception {
     setupSTFApiClient();
 
-    ComboBoxModel items = Utils.getSTFDeviceAttributeComboBoxItems("model");
+    ComboBoxModel items = Utils.getSTFDeviceAttributeValueComboBoxItems("model");
     assertEquals(4, items.size());
     assertThat(items, hasItems("any", "HTL22", "SH-04F", "402SH"));
   }
 
   @Test
-  public void testGetSTFDeviceAttributeComboBoxItemsForVersion() throws Exception {
+  public void testGetSTFDeviceAttributeValueComboBoxItemsForVersion() throws Exception {
     setupSTFApiClient();
 
-    ComboBoxModel items = Utils.getSTFDeviceAttributeComboBoxItems("version");
+    ComboBoxModel items = Utils.getSTFDeviceAttributeValueComboBoxItems("version");
     assertEquals(4, items.size());
     assertThat(items, hasItems("any", "4.1.2", "4.4.2", "4.4.4"));
   }
