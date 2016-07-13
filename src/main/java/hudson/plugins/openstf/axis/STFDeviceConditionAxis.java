@@ -47,8 +47,8 @@ public class STFDeviceConditionAxis extends Axis {
     }
 
     /**
-     * Setting device condition types on jelly.
-     * This Method called by Jenkins.
+     * Set device condition type filled in jelly.
+     * This method is called by Jenkins.
      * @return List of Device condition types.
      */
     public ListBoxModel doFillTypeItems() {
@@ -66,8 +66,8 @@ public class STFDeviceConditionAxis extends Axis {
     }
 
     /**
-     * Setting device condition values on jelly.
-     * This Method called by Jenkins.
+     * Set device condition value filled in jelly.
+     * This method is called by Jenkins.
      * @return List of Device condition values.
      */
     public ListBoxModel doFillValuesItems(@QueryParameter String type) {
