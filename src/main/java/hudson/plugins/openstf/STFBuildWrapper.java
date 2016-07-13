@@ -441,7 +441,7 @@ public class STFBuildWrapper extends BuildWrapper {
 
     /**
      * Setting device model values on jelly.
-     * This Method called by Jenkins.
+     * This method is called by Jenkins.
      * @return List of Device Model values.
      */
     public ComboBoxModel doFillModelItems() {
@@ -451,7 +451,7 @@ public class STFBuildWrapper extends BuildWrapper {
 
     /**
      * Setting OS version values on jelly.
-     * This Method called by Jenkins.
+     * This method is called by Jenkins.
      * @return List of OS version values.
      */
     public ComboBoxModel doFillVersionItems() {
@@ -461,7 +461,7 @@ public class STFBuildWrapper extends BuildWrapper {
 
     /**
      * Checking whether the given condition value is valid.
-     * This Method called by Jenkins.
+     * This method is called by Jenkins.
      * @return validation result.
      */
     public FormValidation doCheckConditionValue(@QueryParameter String value) {
@@ -484,7 +484,7 @@ public class STFBuildWrapper extends BuildWrapper {
 
     /**
      * Display a warning message if 'useSpecificKey' option is selected.
-     * This Method called by Jenkins.
+     * This method is called by Jenkins.
      * @return validation result.
      */
     public FormValidation doCheckUseSpecificKey(@QueryParameter Boolean value) {
