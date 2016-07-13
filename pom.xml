@@ -9,7 +9,7 @@
 
   <artifactId>open-stf</artifactId>
   <packaging>hpi</packaging>
-  <version>1.3.0</version>
+  <version>1.4.0</version>
   <name>Open STF Plugin</name>
   <developers>
     <developer>
