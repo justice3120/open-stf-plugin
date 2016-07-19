@@ -1,9 +1,9 @@
 package hudson.plugins.openstf.axis;
 
+import jenkins.model.Jenkins;
 import hudson.Extension;
 import hudson.matrix.Axis;
 import hudson.matrix.AxisDescriptor;
-import hudson.model.Hudson;
 import hudson.plugins.openstf.STFBuildWrapper;
 import hudson.plugins.openstf.util.Utils;
 import hudson.util.ListBoxModel;
@@ -53,7 +53,7 @@ public class STFDeviceConditionAxis extends Axis {
      */
     public ListBoxModel doFillTypeItems() {
 
-      Hudson hudsonInstance = Hudson.getInstance();
+      Jenkins hudsonInstance = Jenkins.getInstance();
       if (hudsonInstance == null) {
         return new ListBoxModel();
       }
@@ -72,7 +72,7 @@ public class STFDeviceConditionAxis extends Axis {
      */
     public ListBoxModel doFillValuesItems(@QueryParameter String type) {
 
-      Hudson hudsonInstance = Hudson.getInstance();
+      Jenkins hudsonInstance = Jenkins.getInstance();
       if (hudsonInstance == null) {
         return new ListBoxModel();
       }

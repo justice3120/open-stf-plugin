@@ -2,6 +2,7 @@ package hudson.plugins.openstf;
 
 import static hudson.plugins.android_emulator.AndroidEmulator.log;
 
+import jenkins.model.Jenkins;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
@@ -12,7 +13,6 @@ import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
 import hudson.model.Computer;
-import hudson.model.Hudson;
 import hudson.model.Node;
 import hudson.model.Result;
 import hudson.plugins.android_emulator.AndroidEmulator;
@@ -78,7 +78,7 @@ public class STFBuildWrapper extends BuildWrapper {
 
     final PrintStream logger = listener.getLogger();
 
-    Hudson hudsonInstance = Hudson.getInstance();
+    Jenkins hudsonInstance = Jenkins.getInstance();
     if (hudsonInstance == null) {
       log(logger, Messages.CANNOT_GET_HUDSON_INSTANCE());
       build.setResult(Result.FAILURE);
