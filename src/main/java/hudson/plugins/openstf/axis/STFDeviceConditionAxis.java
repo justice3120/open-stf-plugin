@@ -1,12 +1,12 @@
 package hudson.plugins.openstf.axis;
 
-import jenkins.model.Jenkins;
 import hudson.Extension;
 import hudson.matrix.Axis;
 import hudson.matrix.AxisDescriptor;
 import hudson.plugins.openstf.STFBuildWrapper;
 import hudson.plugins.openstf.util.Utils;
 import hudson.util.ListBoxModel;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
