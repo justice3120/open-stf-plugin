@@ -435,8 +435,7 @@ public class STFBuildWrapper extends BuildWrapper {
     }
 
     public ComboBoxModel doFillConditionValueItems(@QueryParameter String conditionName) {
-      if (stfApiEndpoint == null || stfApiEndpoint == ""
-          || stfToken == null || stfToken == "") {
+      if (Util.fixEmpty(stfApiEndpoint) == null || Util.fixEmpty(stfToken) == null) {
         return new ComboBoxModel();
       } else {
         Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
@@ -489,8 +488,7 @@ public class STFBuildWrapper extends BuildWrapper {
     @JavaScriptMethod
     public JSONArray getDeviceListJSON(JSONObject filter) {
 
-      if (stfApiEndpoint == null || stfApiEndpoint == ""
-          || stfToken == null || stfToken == "") {
+      if (Util.fixEmpty(stfApiEndpoint) == null || Util.fixEmpty(stfToken) == null) {
         return new JSONArray();
       }
 
