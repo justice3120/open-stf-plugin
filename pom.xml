@@ -9,7 +9,7 @@
 
   <artifactId>open-stf</artifactId>
   <packaging>hpi</packaging>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
   <name>Open STF Plugin</name>
   <url>https://wiki.jenkins-ci.org/display/JENKINS/Open+STF+Plugin</url>
   <developers>
@@ -89,12 +89,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <goals>deploy</goals>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -183,13 +177,6 @@
       </plugin>
     </plugins>
   </reporting>
-
-  <distributionManagement>
-    <repository>
-      <id>maven.jenkins-ci.org</id>
-      <url>http://maven.jenkins-ci.org:8081/content/repositories/releases/</url>
-    </repository>
-  </distributionManagement>
 
   <repositories>
     <repository>
