@@ -435,28 +435,12 @@ public class STFBuildWrapper extends BuildWrapper {
     }
 
     public ComboBoxModel doFillConditionValueItems(@QueryParameter String conditionName) {
-      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeValueComboBoxItems(conditionName);
-    }
-
-    /**
-     * Setting device model values on jelly.
-     * This method is called by Jenkins.
-     * @return List of Device Model values.
-     */
-    public ComboBoxModel doFillModelItems() {
-      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeValueComboBoxItems("model");
-    }
-
-    /**
-     * Setting OS version values on jelly.
-     * This method is called by Jenkins.
-     * @return List of OS version values.
-     */
-    public ComboBoxModel doFillVersionItems() {
-      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeValueComboBoxItems("version");
+      if (Util.fixEmpty(stfApiEndpoint) == null || Util.fixEmpty(stfToken) == null) {
+        return new ComboBoxModel();
+      } else {
+        Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
+        return Utils.getSTFDeviceAttributeValueComboBoxItems(conditionName);
+      }
     }
 
     /**
@@ -503,6 +487,10 @@ public class STFBuildWrapper extends BuildWrapper {
      */
     @JavaScriptMethod
     public JSONArray getDeviceListJSON(JSONObject filter) {
+
+      if (Util.fixEmpty(stfApiEndpoint) == null || Util.fixEmpty(stfToken) == null) {
+        return new JSONArray();
+      }
 
       if (!Utils.validateDeviceFilter(filter)) {
         return new JSONArray();
