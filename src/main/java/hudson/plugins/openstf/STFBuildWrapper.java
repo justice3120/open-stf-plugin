@@ -119,6 +119,14 @@ public class STFBuildWrapper extends BuildWrapper {
     androidHome = hudson.plugins.android_emulator.util.Utils
         .discoverAndroidHome(launcher, node, envVars, androidHome);
 
+    // Validate Setting values
+    String configError = isConfigValid(stfApiEndpoint, stfToken);
+    if (configError != null) {
+      log(logger, Messages.ERROR_MISCONFIGURED(configError));
+      build.setResult(Result.NOT_BUILT);
+      return null;
+    }
+
     // Confirm that the required SDK tools are available
     AndroidSdk androidSdk = hudson.plugins.android_emulator.util.Utils
         .getAndroidSdk(launcher, androidHome, null);
@@ -322,6 +330,23 @@ public class STFBuildWrapper extends BuildWrapper {
     remote.cleanUp();
   }
 
+  private String isConfigValid(String stfApiEndpoint, String stfToken) {
+
+    if (stfApiEndpoint == null || stfApiEndpoint.equals("")) {
+      return Messages.API_ENDPOINT_URL_NOT_SET();
+    }
+    FormValidation result = descriptor.doCheckSTFApiEndpoint(stfApiEndpoint);
+    if (FormValidation.Kind.ERROR == result.kind) {
+      return result.getMessage();
+    }
+    result = descriptor.doCheckSTFToken(stfApiEndpoint, stfToken);
+    if (FormValidation.Kind.ERROR == result.kind) {
+      return result.getMessage();
+    }
+
+    return null;
+  }
+
   private boolean waitForSTFDeviceConnectCompletion(final int timeout,
       AndroidRemoteContext remote) {
 
@@ -434,29 +459,19 @@ public class STFBuildWrapper extends BuildWrapper {
       return Utils.getSTFDeviceAttributeListBoxItems();
     }
 
+    /**
+     * Fill condition value items on Jenkins web view.
+     * This method is called by Jenkins.
+     * @param conditionName Condition name to get values.
+     * @return condition value items.
+     */
     public ComboBoxModel doFillConditionValueItems(@QueryParameter String conditionName) {
-      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeValueComboBoxItems(conditionName);
-    }
-
-    /**
-     * Setting device model values on jelly.
-     * This method is called by Jenkins.
-     * @return List of Device Model values.
-     */
-    public ComboBoxModel doFillModelItems() {
-      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeValueComboBoxItems("model");
-    }
-
-    /**
-     * Setting OS version values on jelly.
-     * This method is called by Jenkins.
-     * @return List of OS version values.
-     */
-    public ComboBoxModel doFillVersionItems() {
-      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeValueComboBoxItems("version");
+      if (Util.fixEmpty(stfApiEndpoint) == null || Util.fixEmpty(stfToken) == null) {
+        return new ComboBoxModel();
+      } else {
+        Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
+        return Utils.getSTFDeviceAttributeValueComboBoxItems(conditionName);
+      }
     }
 
     /**
@@ -503,6 +518,10 @@ public class STFBuildWrapper extends BuildWrapper {
      */
     @JavaScriptMethod
     public JSONArray getDeviceListJSON(JSONObject filter) {
+
+      if (Util.fixEmpty(stfApiEndpoint) == null || Util.fixEmpty(stfToken) == null) {
+        return new JSONArray();
+      }
 
       if (!Utils.validateDeviceFilter(filter)) {
         return new JSONArray();
