@@ -119,6 +119,14 @@ public class STFBuildWrapper extends BuildWrapper {
     androidHome = hudson.plugins.android_emulator.util.Utils
         .discoverAndroidHome(launcher, node, envVars, androidHome);
 
+    // Validate Setting values
+    String configError = isConfigValid(stfApiEndpoint, stfToken);
+    if (configError != null) {
+        log(logger, Messages.ERROR_MISCONFIGURED(configError));
+        build.setResult(Result.NOT_BUILT);
+        return null;
+    }
+
     // Confirm that the required SDK tools are available
     AndroidSdk androidSdk = hudson.plugins.android_emulator.util.Utils
         .getAndroidSdk(launcher, androidHome, null);
@@ -320,6 +328,23 @@ public class STFBuildWrapper extends BuildWrapper {
     remote.getProcStarter(adbKillCmd).join();
 
     remote.cleanUp();
+  }
+
+  private String isConfigValid(String stfApiEndpoint, String stfToken) {
+
+    if (stfApiEndpoint == null || stfApiEndpoint.equals("")) {
+      return Messages.API_ENDPOINT_URL_NOT_SET();
+    }
+    FormValidation result = descriptor.doCheckSTFApiEndpoint(stfApiEndpoint);
+    if (FormValidation.Kind.ERROR == result.kind) {
+      return result.getMessage();
+    }
+    result = descriptor.doCheckSTFToken(stfApiEndpoint, stfToken);
+    if (FormValidation.Kind.ERROR == result.kind) {
+      return result.getMessage();
+    }
+
+    return null;
   }
 
   private boolean waitForSTFDeviceConnectCompletion(final int timeout,

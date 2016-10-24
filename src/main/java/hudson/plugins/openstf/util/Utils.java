@@ -344,6 +344,7 @@ public class Utils {
 
     ApiClient stfApiClient = new ApiClient();
     stfApiClient.setBasePath(stfApiEndpoint);
+    stfApiClient.setConnectTimeout(10 * 1000);
     UserApi stfUserApi = new UserApi(stfApiClient);
     try {
       stfUserApi.getUser();
@@ -356,6 +357,8 @@ public class Utils {
       String message = ex.getMessage();
       if (message.startsWith("java.net.UnknownHostException:")) {
         return FormValidation.error(Messages.CANNOT_RESOLVE_HOST());
+      } else if (message.startsWith("java.net.SocketTimeoutException:")) {
+        return FormValidation.error(Messages.CONNECTION_TIMEOUT());
       } else if (message.startsWith("java.net.ConnectException:")) {
         return FormValidation.error(message.replaceAll("java.net.ConnectException: ", ""));
       } else {
