@@ -122,9 +122,9 @@ public class STFBuildWrapper extends BuildWrapper {
     // Validate Setting values
     String configError = isConfigValid(stfApiEndpoint, stfToken);
     if (configError != null) {
-        log(logger, Messages.ERROR_MISCONFIGURED(configError));
-        build.setResult(Result.NOT_BUILT);
-        return null;
+      log(logger, Messages.ERROR_MISCONFIGURED(configError));
+      build.setResult(Result.NOT_BUILT);
+      return null;
     }
 
     // Confirm that the required SDK tools are available
