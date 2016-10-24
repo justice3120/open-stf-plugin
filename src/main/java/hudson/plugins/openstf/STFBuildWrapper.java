@@ -2,7 +2,6 @@ package hudson.plugins.openstf;
 
 import static hudson.plugins.android_emulator.AndroidEmulator.log;
 
-import jenkins.model.Jenkins;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
@@ -31,6 +30,7 @@ import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 import hudson.util.NullStream;
 import io.swagger.client.model.DeviceListResponseDevices;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
