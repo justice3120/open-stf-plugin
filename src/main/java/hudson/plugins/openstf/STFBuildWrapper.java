@@ -459,6 +459,12 @@ public class STFBuildWrapper extends BuildWrapper {
       return Utils.getSTFDeviceAttributeListBoxItems();
     }
 
+    /**
+     * Fill condition value items on Jenkins web view.
+     * This method is called by Jenkins.
+     * @param conditionName Condition name to get values.
+     * @return condition value items.
+     */
     public ComboBoxModel doFillConditionValueItems(@QueryParameter String conditionName) {
       if (Util.fixEmpty(stfApiEndpoint) == null || Util.fixEmpty(stfToken) == null) {
         return new ComboBoxModel();
