@@ -2,7 +2,6 @@ package hudson.plugins.openstf;
 
 import static hudson.plugins.android_emulator.AndroidEmulator.log;
 
-import jenkins.model.Jenkins;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
@@ -31,6 +30,7 @@ import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 import hudson.util.NullStream;
 import io.swagger.client.model.DeviceListResponseDevices;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -118,6 +118,14 @@ public class STFBuildWrapper extends BuildWrapper {
         .expandVariables(envVars, buildVars, emulatorDescriptor.androidHome);
     androidHome = hudson.plugins.android_emulator.util.Utils
         .discoverAndroidHome(launcher, node, envVars, androidHome);
+
+    // Validate Setting values
+    String configError = isConfigValid(stfApiEndpoint, stfToken);
+    if (configError != null) {
+      log(logger, Messages.ERROR_MISCONFIGURED(configError));
+      build.setResult(Result.NOT_BUILT);
+      return null;
+    }
 
     // Confirm that the required SDK tools are available
     AndroidSdk androidSdk = hudson.plugins.android_emulator.util.Utils
@@ -322,6 +330,23 @@ public class STFBuildWrapper extends BuildWrapper {
     remote.cleanUp();
   }
 
+  private String isConfigValid(String stfApiEndpoint, String stfToken) {
+
+    if (stfApiEndpoint == null || stfApiEndpoint.equals("")) {
+      return Messages.API_ENDPOINT_URL_NOT_SET();
+    }
+    FormValidation result = descriptor.doCheckSTFApiEndpoint(stfApiEndpoint);
+    if (FormValidation.Kind.ERROR == result.kind) {
+      return result.getMessage();
+    }
+    result = descriptor.doCheckSTFToken(stfApiEndpoint, stfToken);
+    if (FormValidation.Kind.ERROR == result.kind) {
+      return result.getMessage();
+    }
+
+    return null;
+  }
+
   private boolean waitForSTFDeviceConnectCompletion(final int timeout,
       AndroidRemoteContext remote) {
 
@@ -434,6 +459,12 @@ public class STFBuildWrapper extends BuildWrapper {
       return Utils.getSTFDeviceAttributeListBoxItems();
     }
 
+    /**
+     * Fill condition value items on Jenkins web view.
+     * This method is called by Jenkins.
+     * @param conditionName Condition name to get values.
+     * @return condition value items.
+     */
     public ComboBoxModel doFillConditionValueItems(@QueryParameter String conditionName) {
       if (Util.fixEmpty(stfApiEndpoint) == null || Util.fixEmpty(stfToken) == null) {
         return new ComboBoxModel();
