@@ -39,14 +39,14 @@ public class STFReservedDeviceAction implements Action {
   }
 
   public String getDisplayName() {
-      return null;
+    return null;
   }
 
   public String getIconFileName() {
-      return null;
+    return null;
   }
 
   public String getUrlName() {
-      return null;
+    return null;
   }
 }
