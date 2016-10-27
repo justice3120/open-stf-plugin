@@ -16,6 +16,11 @@ public class STFReservedDeviceAction implements Action {
     this.reservedDevice = reservedDevice;
   }
 
+  /**
+   * Get the device image URL.
+   * This method is called by Jenkins.
+   * return image URL
+   */
   @Exported
   public String getDeviceIcon() {
     String path = "/static/app/devices/icon/x120/";
