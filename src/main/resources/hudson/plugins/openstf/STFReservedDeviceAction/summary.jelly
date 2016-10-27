@@ -1,0 +1,13 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+
+    <f:block>
+      <tr>
+        <td style="width: 48px; margin-right:1em;">
+          <img src="${it.deviceIcon}" style="height: 48px; display: block; margin-left: auto; margin-right: auto;" />
+        </td>
+        <td style="vertical-align:middle">${it.summary}</td>
+      </tr>
+    </f:block>
+
+</j:jelly>
