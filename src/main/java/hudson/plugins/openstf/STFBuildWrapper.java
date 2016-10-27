@@ -173,8 +173,9 @@ public class STFBuildWrapper extends BuildWrapper {
       String reservedDeviceId = stfConfig.reserve();
       DeviceListResponseDevices device = Utils.getSTFDeviceById(reservedDeviceId);
       remote.setDevice(device);
-      log(logger, Messages.SHOW_RESERVER_DEVICE_INFO(device.name, device.serial,
+      log(logger, Messages.SHOW_RESERVED_DEVICE_INFO(device.name, device.serial,
           device.sdk, device.version));
+      build.addAction(new STFReservedDeviceAction(descriptor.stfApiEndpoint, device));
     } catch (STFException ex) {
       log(logger, ex.getMessage());
       build.setResult(Result.NOT_BUILT);
