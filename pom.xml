@@ -71,7 +71,7 @@
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-java-client</artifactId>
-      <version>1.0.3</version>
+      <version>1.0.4</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -181,7 +181,7 @@
   <repositories>
     <repository>
       <id>github-maven</id>
-      <url>https://raw.github.com/justice3120/stf-java-client/branch-ver1.0.3/</url>
+      <url>https://raw.github.com/justice3120/stf-java-client/branch-ver1.0.4/</url>
       <snapshots>
         <enabled>true</enabled>
         <updatePolicy>always</updatePolicy>
