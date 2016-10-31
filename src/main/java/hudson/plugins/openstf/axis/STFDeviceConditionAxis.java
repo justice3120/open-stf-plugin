@@ -60,7 +60,8 @@ public class STFDeviceConditionAxis extends Axis {
 
       STFBuildWrapper.DescriptorImpl descriptor = hudsonInstance
           .getDescriptorByType(STFBuildWrapper.DescriptorImpl.class);
-      Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.stfToken);
+      Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.ignoreCertError,
+          descriptor.stfToken);
 
       return Utils.getSTFDeviceAttributeListBoxItems();
     }
@@ -79,7 +80,8 @@ public class STFDeviceConditionAxis extends Axis {
 
       STFBuildWrapper.DescriptorImpl descriptor = hudsonInstance
           .getDescriptorByType(STFBuildWrapper.DescriptorImpl.class);
-      Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.stfToken);
+      Utils.setupSTFApiClient(descriptor.stfApiEndpoint, descriptor.ignoreCertError,
+          descriptor.stfToken);
 
       return Utils.getSTFDeviceAttributeValueListBoxItems(type);
     }
