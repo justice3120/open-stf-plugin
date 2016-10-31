@@ -126,8 +126,13 @@ public class Utils {
    * @param stfApiEndpoint  stfApiEndpoint The STF API endpoint URL.
    * @param stfToken  stfToken The STF access token.
    */
-  public static void setupSTFApiClient(String stfApiEndpoint, String stfToken) {
+  public static void setupSTFApiClient(String stfApiEndpoint, boolean ignoreCertError,
+      String stfToken) {
+
     ApiClient stfApiClient = new ApiClient();
+    if (ignoreCertError) {
+      stfApiClient.setIgnoreCertError(true);
+    }
     stfApiClient.setBasePath(stfApiEndpoint);
     stfApiClient.setApiKeyPrefix("Bearer");
     stfApiClient.setApiKey(stfToken);
@@ -148,7 +153,8 @@ public class Utils {
       throws ApiFailedException {
 
     List<DeviceListResponseDevices> deviceList;
-    String fields = "serial,name,model,version,sdk,image,present,owner,provider,notes,manufacturer";
+    String fields = "serial,name,model,version,sdk,image,present,owner"
+        + ",provider,notes,manufacturer,abi";
     DevicesApi stfDevicesApi = new DevicesApi();
 
     try {
@@ -217,7 +223,7 @@ public class Utils {
 
     DevicesApi stfDevicesApi = new DevicesApi();
     String fields = "serial,name,model,version,sdk,image,present,owner"
-        + ",remoteConnectUrl,provider,notes,manufacturer";
+        + ",remoteConnectUrl,provider,notes,manufacturer,abi";
     try {
       device = stfDevicesApi.getDeviceBySerial(deviceId, fields).getDevice();
     } catch (ApiException ex) {
@@ -333,7 +339,9 @@ public class Utils {
    * @param stfApiEndpoint The URL string to validate.
    * @return Whether the URL looks valid or not.
    */
-  public static FormValidation validateSTFApiEndpoint(String stfApiEndpoint) {
+  public static FormValidation validateSTFApiEndpoint(String stfApiEndpoint,
+      boolean ignoreCertError) {
+
     if (stfApiEndpoint == null || stfApiEndpoint.equals("")) {
       return FormValidation.ok();
     }
@@ -343,6 +351,9 @@ public class Utils {
     }
 
     ApiClient stfApiClient = new ApiClient();
+    if (ignoreCertError) {
+      stfApiClient.setIgnoreCertError(true);
+    }
     stfApiClient.setBasePath(stfApiEndpoint);
     stfApiClient.setConnectTimeout(10 * 1000);
     UserApi stfUserApi = new UserApi(stfApiClient);
@@ -375,17 +386,19 @@ public class Utils {
    * @param stfToken The token string to validate.
    * @return Whether the STF token looks valid or not.
    */
-  public static FormValidation validateSTFToken(String stfApiEndpoint, String stfToken) {
+  public static FormValidation validateSTFToken(String stfApiEndpoint, boolean ignoreCertError,
+      String stfToken) {
+
     if (stfApiEndpoint == null || stfApiEndpoint.equals("")) {
       if (!(stfToken == null || stfToken.equals(""))) {
         return FormValidation.error(Messages.STF_API_ENDPOINT_NOT_SET());
       }
     } else {
-      if (validateSTFApiEndpoint(stfApiEndpoint).kind == FormValidation.Kind.OK) {
+      if (validateSTFApiEndpoint(stfApiEndpoint, ignoreCertError).kind == FormValidation.Kind.OK) {
         if (stfToken == null || stfToken.equals("")) {
           return FormValidation.error(Messages.STF_TOKEN_REQUIRED());
         }
-        if (!verifyToken(stfApiEndpoint, stfToken)) {
+        if (!verifyToken(stfApiEndpoint, ignoreCertError, stfToken)) {
           return FormValidation.error(Messages.STF_TOKEN_NOT_VALID());
         }
       } else {
@@ -439,8 +452,10 @@ public class Utils {
     return items;
   }
 
-  private static boolean verifyToken(String stfApiEndpoint, String stfToken) {
-    setupSTFApiClient(stfApiEndpoint, stfToken);
+  private static boolean verifyToken(String stfApiEndpoint, boolean ignoreCertError,
+      String stfToken) {
+
+    setupSTFApiClient(stfApiEndpoint, ignoreCertError, stfToken);
     UserApi stfUserApi = new UserApi();
     try {
       stfUserApi.getUser();
