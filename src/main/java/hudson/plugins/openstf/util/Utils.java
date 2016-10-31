@@ -148,7 +148,8 @@ public class Utils {
       throws ApiFailedException {
 
     List<DeviceListResponseDevices> deviceList;
-    String fields = "serial,name,model,version,sdk,image,present,owner,provider,notes,manufacturer";
+    String fields = "serial,name,model,version,sdk,image,present,owner"
+        + ",provider,notes,manufacturer,abi";
     DevicesApi stfDevicesApi = new DevicesApi();
 
     try {
@@ -217,7 +218,7 @@ public class Utils {
 
     DevicesApi stfDevicesApi = new DevicesApi();
     String fields = "serial,name,model,version,sdk,image,present,owner"
-        + ",remoteConnectUrl,provider,notes,manufacturer";
+        + ",remoteConnectUrl,provider,notes,manufacturer,abi";
     try {
       device = stfDevicesApi.getDeviceBySerial(deviceId, fields).getDevice();
     } catch (ApiException ex) {
