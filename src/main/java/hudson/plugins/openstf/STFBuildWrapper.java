@@ -368,8 +368,10 @@ public class STFBuildWrapper extends BuildWrapper {
         String lineSeparator =
             Computer.currentComputer().getSystemProperties().get("line.separator").toString();
         for (String line: devicesResult.split(lineSeparator)) {
-          if (line.contains(remote.serial()) && line.contains("device")) {
-            return true;
+          if (line != null) {
+            if (line.contains(remote.serial()) && line.contains("device")) {
+              return true;
+            }
           }
         }
 
