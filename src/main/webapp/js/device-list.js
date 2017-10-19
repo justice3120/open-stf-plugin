@@ -93,7 +93,10 @@ function getDeviceBalloonContents(device) {
       var tdKey = Q('<td class="device-attr"/>').text(k);
       var tdValue = Q('<td class="device-attr"/>').text(v);
 
-      if ((k == 'owner' || k == 'provider') && v != null) {
+      if (( k.includes('battery')) && v != null) {
+        tdValue.text(v.level);
+      }
+      else if ((k == 'owner' || k == 'provider') && v != null) {
         tdValue.text(v.name);
       }
 

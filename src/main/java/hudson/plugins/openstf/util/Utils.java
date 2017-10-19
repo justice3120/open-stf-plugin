@@ -154,7 +154,7 @@ public class Utils {
 
     List<DeviceListResponseDevices> deviceList;
     String fields = "serial,name,model,version,sdk,image,present,owner"
-        + ",provider,notes,manufacturer,abi";
+        + ",provider,notes,manufacturer,abi,battery";
     DevicesApi stfDevicesApi = new DevicesApi();
 
     try {
@@ -178,7 +178,10 @@ public class Utils {
 
               if (field.get(device) != null) {
                 String deviceValue;
-                if (key.equals("provider")) {
+                if (key.equals("battery")) {
+                  deviceValue = String.valueOf(device.battery.level);
+                }
+                else if (key.equals("provider")) {
                   deviceValue = device.provider.name;
                 } else {
                   deviceValue = field.get(device).toString();
@@ -223,7 +226,7 @@ public class Utils {
 
     DevicesApi stfDevicesApi = new DevicesApi();
     String fields = "serial,name,model,version,sdk,image,present,owner"
-        + ",remoteConnectUrl,provider,notes,manufacturer,abi";
+        + ",remoteConnectUrl,provider,notes,manufacturer,abi,battery";
     try {
       device = stfDevicesApi.getDeviceBySerial(deviceId, fields).getDevice();
     } catch (ApiException ex) {
@@ -433,7 +436,9 @@ public class Utils {
           Field field = klass.getField(attribute);
 
           if (field.get(device) != null) {
-            if (attribute.equals("provider")) {
+            if (attribute.equals("battery")) {
+              items.add(String.valueOf(device.battery.level));}
+            else if (attribute.equals("provider")) {
               items.add(device.provider.name);
             } else {
               items.add(field.get(device).toString());
