@@ -1,3 +1,4 @@
+<?jelly escape-by-default='true'?> 
 <div>
   Reserve a STF device before a build, then release it after.
 </div>

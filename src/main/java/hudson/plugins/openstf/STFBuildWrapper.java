@@ -103,6 +103,7 @@ public class STFBuildWrapper extends BuildWrapper {
     String adbPublicKey = descriptor.adbPublicKey;
     String adbPrivateKey = descriptor.adbPrivateKey;
     JSONObject deviceFilter = Utils.expandVariables(envVars, buildVars, this.deviceCondition);
+    boolean ignoreCertError = descriptor.ignoreCertError;
 
     if (!Utils.validateDeviceFilter(deviceFilter)) {
       log(logger, Messages.INVALID_DEVICE_CONDITION_SET_IS_GIVEN());
@@ -110,7 +111,7 @@ public class STFBuildWrapper extends BuildWrapper {
       return null;
     }
 
-    Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
+    Utils.setupSTFApiClient(stfApiEndpoint, ignoreCertError, stfToken);
 
     // SDK location
     Node node = Computer.currentComputer().getNode();
@@ -118,6 +119,14 @@ public class STFBuildWrapper extends BuildWrapper {
         .expandVariables(envVars, buildVars, emulatorDescriptor.androidHome);
     androidHome = hudson.plugins.android_emulator.util.Utils
         .discoverAndroidHome(launcher, node, envVars, androidHome);
+
+    // Validate Setting values
+    String configError = isConfigValid(stfApiEndpoint, ignoreCertError, stfToken);
+    if (configError != null) {
+      log(logger, Messages.ERROR_MISCONFIGURED(configError));
+      build.setResult(Result.NOT_BUILT);
+      return null;
+    }
 
     // Confirm that the required SDK tools are available
     AndroidSdk androidSdk = hudson.plugins.android_emulator.util.Utils
@@ -165,6 +174,9 @@ public class STFBuildWrapper extends BuildWrapper {
       String reservedDeviceId = stfConfig.reserve();
       DeviceListResponseDevices device = Utils.getSTFDeviceById(reservedDeviceId);
       remote.setDevice(device);
+      log(logger, Messages.SHOW_RESERVED_DEVICE_INFO(device.name, device.serial,
+          device.sdk, device.version));
+      build.addAction(new STFReservedDeviceAction(descriptor.stfApiEndpoint, device));
     } catch (STFException ex) {
       log(logger, ex.getMessage());
       build.setResult(Result.NOT_BUILT);
@@ -322,6 +334,23 @@ public class STFBuildWrapper extends BuildWrapper {
     remote.cleanUp();
   }
 
+  private String isConfigValid(String stfApiEndpoint, boolean ignoreCertError, String stfToken) {
+
+    if (stfApiEndpoint == null || stfApiEndpoint.equals("")) {
+      return Messages.API_ENDPOINT_URL_NOT_SET();
+    }
+    FormValidation result = descriptor.doCheckSTFApiEndpoint(stfApiEndpoint, ignoreCertError);
+    if (FormValidation.Kind.ERROR == result.kind) {
+      return result.getMessage();
+    }
+    result = descriptor.doCheckSTFToken(stfApiEndpoint, ignoreCertError, stfToken);
+    if (FormValidation.Kind.ERROR == result.kind) {
+      return result.getMessage();
+    }
+
+    return null;
+  }
+
   private boolean waitForSTFDeviceConnectCompletion(final int timeout,
       AndroidRemoteContext remote) {
 
@@ -339,8 +368,10 @@ public class STFBuildWrapper extends BuildWrapper {
         String lineSeparator =
             Computer.currentComputer().getSystemProperties().get("line.separator").toString();
         for (String line: devicesResult.split(lineSeparator)) {
-          if (line.contains(remote.serial()) && line.contains("device")) {
-            return true;
+          if (line != null) {
+            if (line.contains(remote.serial()) && line.contains("device")) {
+              return true;
+            }
           }
         }
 
@@ -363,6 +394,7 @@ public class STFBuildWrapper extends BuildWrapper {
     public Boolean useSpecificKey = false;
     public String adbPublicKey;
     public String adbPrivateKey;
+    public boolean ignoreCertError = false;
 
     public DescriptorImpl() {
       super(STFBuildWrapper.class);
@@ -386,6 +418,7 @@ public class STFBuildWrapper extends BuildWrapper {
         adbPublicKey = null;
         adbPrivateKey = null;
       }
+      ignoreCertError = json.optBoolean("ignoreCertError", false);
       save();
       return true;
     }
@@ -430,33 +463,23 @@ public class STFBuildWrapper extends BuildWrapper {
     }
 
     public ListBoxModel doFillConditionNameItems() {
-      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
+      Utils.setupSTFApiClient(stfApiEndpoint, ignoreCertError, stfToken);
       return Utils.getSTFDeviceAttributeListBoxItems();
     }
 
+    /**
+     * Fill condition value items on Jenkins web view.
+     * This method is called by Jenkins.
+     * @param conditionName Condition name to get values.
+     * @return condition value items.
+     */
     public ComboBoxModel doFillConditionValueItems(@QueryParameter String conditionName) {
-      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeValueComboBoxItems(conditionName);
-    }
-
-    /**
-     * Setting device model values on jelly.
-     * This method is called by Jenkins.
-     * @return List of Device Model values.
-     */
-    public ComboBoxModel doFillModelItems() {
-      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeValueComboBoxItems("model");
-    }
-
-    /**
-     * Setting OS version values on jelly.
-     * This method is called by Jenkins.
-     * @return List of OS version values.
-     */
-    public ComboBoxModel doFillVersionItems() {
-      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
-      return Utils.getSTFDeviceAttributeValueComboBoxItems("version");
+      if (Util.fixEmpty(stfApiEndpoint) == null || Util.fixEmpty(stfToken) == null) {
+        return new ComboBoxModel();
+      } else {
+        Utils.setupSTFApiClient(stfApiEndpoint, ignoreCertError, stfToken);
+        return Utils.getSTFDeviceAttributeValueComboBoxItems(conditionName);
+      }
     }
 
     /**
@@ -473,13 +496,14 @@ public class STFBuildWrapper extends BuildWrapper {
       return FormValidation.ok();
     }
 
-    public FormValidation doCheckSTFApiEndpoint(@QueryParameter String value) {
-      return Utils.validateSTFApiEndpoint(value);
+    public FormValidation doCheckSTFApiEndpoint(@QueryParameter String stfApiEndpoint,
+        @QueryParameter boolean ignoreCertError) {
+      return Utils.validateSTFApiEndpoint(stfApiEndpoint, ignoreCertError);
     }
 
     public FormValidation doCheckSTFToken(@QueryParameter String stfApiEndpoint,
-        @QueryParameter String stfToken) {
-      return Utils.validateSTFToken(stfApiEndpoint, stfToken);
+        @QueryParameter boolean ignoreCertError, @QueryParameter String stfToken) {
+      return Utils.validateSTFToken(stfApiEndpoint, ignoreCertError, stfToken);
     }
 
     /**
@@ -504,11 +528,15 @@ public class STFBuildWrapper extends BuildWrapper {
     @JavaScriptMethod
     public JSONArray getDeviceListJSON(JSONObject filter) {
 
+      if (Util.fixEmpty(stfApiEndpoint) == null || Util.fixEmpty(stfToken) == null) {
+        return new JSONArray();
+      }
+
       if (!Utils.validateDeviceFilter(filter)) {
         return new JSONArray();
       }
 
-      Utils.setupSTFApiClient(stfApiEndpoint, stfToken);
+      Utils.setupSTFApiClient(stfApiEndpoint, ignoreCertError, stfToken);
 
       try {
         List<DeviceListResponseDevices> deviceList = Utils.getDeviceList(filter);

@@ -1,3 +1,4 @@
+<?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 
   <f:section title="${%Open STF}">
@@ -7,14 +8,14 @@
         help="/plugin/open-stf/help-stfApiEndpoint.html">
       <input class="setting-input validated" name="open-stf.stfApiEndpoint"
           type="text" value="${descriptor.stfApiEndpoint}"
-          checkUrl="'buildWrapper/STFBuildWrapper/checkSTFApiEndpoint?value='+escape(this.value)" />
+          checkUrl="'buildWrapper/STFBuildWrapper/checkSTFApiEndpoint?stfApiEndpoint=' + escape(this.value) + '&amp;ignoreCertError=' + escape(document.getElementsByName('open-stf.ignoreCertError')[0].checked)" />
     </f:entry>
 
     <f:entry title="${%STF Access Token}"
         help="/plugin/open-stf/help-stfToken.html">
       <f:password value="${descriptor.stfToken}"
           name="open-stf.stfToken"
-          checkUrl="'buildWrapper/STFBuildWrapper/checkSTFToken?stfApiEndpoint='+escape(document.getElementsByName('open-stf.stfApiEndpoint')[0].value) +'&amp;stfToken='+escape(this.value)"/>
+          checkUrl="'buildWrapper/STFBuildWrapper/checkSTFToken?stfApiEndpoint=' + escape(document.getElementsByName('open-stf.stfApiEndpoint')[0].value) + '&amp;ignoreCertError=' + escape(document.getElementsByName('open-stf.ignoreCertError')[0].checked) + '&amp;stfToken=' + escape(this.value)"/>
     </f:entry>
 
     <f:entry title="${%ADB Key}">
@@ -39,6 +40,11 @@
       </table>
     </f:entry>
 
+    <f:advanced>
+      <f:entry title="${%Ignore certificate errors}">
+        <f:checkbox name="open-stf.ignoreCertError" checked="${descriptor.ignoreCertError}"/>
+      </f:entry>
+    </f:advanced>
   </f:section>
 
 </j:jelly>

@@ -122,6 +122,6 @@ public class UtilsTest {
   private void setupSTFApiClient() {
     String dummySTFApiEndpoint = "http://127.0.0.1:8888/api/v1";
     String dummySTFToken = DUMMY_TOKEN;
-    Utils.setupSTFApiClient(dummySTFApiEndpoint, dummySTFToken);
+    Utils.setupSTFApiClient(dummySTFApiEndpoint, false, dummySTFToken);
   }
 }
